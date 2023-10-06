@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Form version="1.5" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JDialogFormInfo">
+  <Properties>
+    <Property name="defaultCloseOperation" type="int" value="2"/>
+  </Properties>
+  <SyntheticProperties>
+    <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
+    <SyntheticProperty name="generateCenter" type="boolean" value="false"/>
+  </SyntheticProperties>
+  <AuxValues>
+    <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
+    <AuxValue name="FormSettings_autoSetComponentName" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_generateFQN" type="java.lang.Boolean" value="true"/>
+    <AuxValue name="FormSettings_generateMnemonicsCode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_i18nAutoMode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_layoutCodeTarget" type="java.lang.Integer" value="1"/>
+    <AuxValue name="FormSettings_listenerGenerationStyle" type="java.lang.Integer" value="0"/>
+    <AuxValue name="FormSettings_variablesLocal" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_variablesModifier" type="java.lang.Integer" value="2"/>
+  </AuxValues>
+
+  <Layout>
+    <DimensionLayout dim="0">
+      <Group type="103" groupAlignment="0" attributes="0">
+          <Group type="102" alignment="0" attributes="0">
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="jPanel1" max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+          </Group>
+      </Group>
+    </DimensionLayout>
+    <DimensionLayout dim="1">
+      <Group type="103" groupAlignment="0" attributes="0">
+          <Group type="102" alignment="0" attributes="0">
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="jPanel1" max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+          </Group>
+      </Group>
+    </DimensionLayout>
+  </Layout>
+  <SubComponents>
+    <Container class="javax.swing.JPanel" name="jPanel1">
+
+      <Layout>
+        <DimensionLayout dim="0">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="102" alignment="1" attributes="0">
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="1" attributes="0">
+                      <Group type="102" attributes="0">
+                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                          <Component id="btAlta" min="-2" pref="107" max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="102" attributes="0">
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="etNombre" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="etApellidos" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="etFecha" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="etProvincia" alignment="0" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace min="-2" pref="48" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="spFecha" alignment="0" pref="240" max="32767" attributes="0"/>
+                              <Component id="tfApellidos" alignment="0" max="32767" attributes="0"/>
+                              <Component id="tfNombre" max="32767" attributes="0"/>
+                              <Component id="cbProvincia" alignment="0" max="32767" attributes="0"/>
+                          </Group>
+                      </Group>
+                  </Group>
+                  <EmptySpace max="-2" attributes="0"/>
+              </Group>
+          </Group>
+        </DimensionLayout>
+        <DimensionLayout dim="1">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="102" alignment="0" attributes="0">
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="etNombre" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="tfNombre" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="etApellidos" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="tfApellidos" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace min="-2" pref="22" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="etFecha" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="spFecha" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="etProvincia" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="cbProvincia" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace pref="65" max="32767" attributes="0"/>
+                  <Component id="btAlta" min="-2" pref="48" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+              </Group>
+          </Group>
+        </DimensionLayout>
+      </Layout>
+      <SubComponents>
+        <Component class="javax.swing.JLabel" name="etNombre">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Nombre"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="etApellidos">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Apellidos"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="etFecha">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Fecha de alta"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="etProvincia">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Provincia"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JTextField" name="tfNombre">
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="tfNombreActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JTextField" name="tfApellidos">
+        </Component>
+        <Component class="javax.swing.JSpinner" name="spFecha">
+          <Properties>
+            <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
+              <SpinnerModel initial="now" stepSize="5" type="date"/>
+            </Property>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JComboBox" name="cbProvincia">
+          <Properties>
+            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+              <StringArray count="8">
+                <StringItem index="0" value="Almer&#xed;a"/>
+                <StringItem index="1" value="Granada"/>
+                <StringItem index="2" value="Ja&#xe9;n"/>
+                <StringItem index="3" value="M&#xe1;laga"/>
+                <StringItem index="4" value="C&#xf3;rdoba"/>
+                <StringItem index="5" value="Sevilla"/>
+                <StringItem index="6" value="C&#xe1;diz"/>
+                <StringItem index="7" value="Huelva"/>
+              </StringArray>
+            </Property>
+          </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+          </AuxValues>
+        </Component>
+        <Component class="javax.swing.JButton" name="btAlta">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Alta"/>
+          </Properties>
+        </Component>
+      </SubComponents>
+    </Container>
+  </SubComponents>
+</Form>
