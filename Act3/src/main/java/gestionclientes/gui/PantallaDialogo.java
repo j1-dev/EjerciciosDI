@@ -4,6 +4,7 @@
  */
 package gestionclientes.gui;
 
+import gestionclientes.dto.Cliente;
 import java.util.Date;
 
 /**
@@ -12,6 +13,7 @@ import java.util.Date;
  */
 public class PantallaDialogo extends javax.swing.JDialog {
 
+    private PantallaPrincipal pantallaPrincipal;
     /**
      * Creates new form PantallaDialogo
      */
@@ -23,6 +25,7 @@ public class PantallaDialogo extends javax.swing.JDialog {
                 btAltaActionPerformed(evt);
             }
         });
+        pantallaPrincipal = (PantallaPrincipal) parent;
     }
 
     /**
@@ -143,6 +146,9 @@ public class PantallaDialogo extends javax.swing.JDialog {
         String apellidos = tfApellidos.getText();
         Date fechaAlta = (Date) spFecha.getValue();
         String provincia = (String) cbProvincia.getSelectedItem();
+        Cliente cliente = new Cliente(nombre, apellidos, fechaAlta, provincia);
+        
+        pantallaPrincipal.anadirCliente(cliente);
         setVisible(false);
     }
     

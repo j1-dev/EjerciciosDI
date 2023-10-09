@@ -55,5 +55,12 @@ public class Cliente {
         this.provincia = provincia;
     }
     
-    
+    public String[] toArrayString(){
+        String[] res = new String[4];
+        res[0] = nombre;
+        res[1] = apellidos;
+        res[2] = fechaAlta.toString();
+        res[3] = provincia;
+        return res;
+    }
 }

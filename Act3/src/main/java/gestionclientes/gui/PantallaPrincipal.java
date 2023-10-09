@@ -4,6 +4,7 @@
  */
 package gestionclientes.gui;
 
+import gestionclientes.dto.Cliente;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -24,6 +25,11 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         DefaultTableModel dtm = new DefaultTableModel();
         dtm.setColumnIdentifiers(new String[]{"Nombre", "Apellidos", "Fecha de Alta", "Provincia"});
         tbClientes.setModel(dtm);
+    }
+    
+    public void anadirCliente(Cliente cliente){
+        DefaultTableModel dtm = (DefaultTableModel)tbClientes.getModel();
+        dtm.addRow(cliente.toArrayString());
     }
 
     /**
