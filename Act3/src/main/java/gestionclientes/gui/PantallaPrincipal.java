@@ -5,6 +5,8 @@
 package gestionclientes.gui;
 
 import gestionclientes.dto.Cliente;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -23,7 +25,7 @@ public class PantallaPrincipal extends javax.swing.JFrame {
     
     private void inicializarTabla(){
         DefaultTableModel dtm = new DefaultTableModel();
-        dtm.setColumnIdentifiers(new String[]{"Nombre", "Apellidos", "Fecha de Alta", "Provincia"});
+        dtm.setColumnIdentifiers(new String[]{"Nombre", "Apellidos", "Fecha de Alta", "Provincia", "Nivel de inglés"});
         tbClientes.setModel(dtm);
     }
     
@@ -76,7 +78,6 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         opNuevo.getAccessibleContext().setAccessibleDescription("");
 
         jMenuBar1.add(jMenu1);
-        jMenu1.getAccessibleContext().setAccessibleName("Cliente");
 
         setJMenuBar(jMenuBar1);
 
@@ -84,13 +85,14 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 435, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 767, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 344, Short.MAX_VALUE)
         );
 
         pack();
@@ -131,7 +133,20 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new PantallaPrincipal().setVisible(true);
+                try {
+                    // Set System L&F
+                    UIManager.setLookAndFeel(
+                    UIManager.getSystemLookAndFeelClassName());
+                } 
+                catch (UnsupportedLookAndFeelException | 
+                       ClassNotFoundException | 
+                       InstantiationException | 
+                       IllegalAccessException e) {
+                    // handle exception
+                }
+
+                PantallaPrincipal pantallaPrincipal = new PantallaPrincipal();
+                pantallaPrincipal.setVisible(true);
             }
         });
     }

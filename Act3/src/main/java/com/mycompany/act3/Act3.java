@@ -4,6 +4,10 @@
 
 package com.mycompany.act3;
 
+import gestionclientes.gui.PantallaPrincipal;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+
 /**
  *
  * @author j1
@@ -11,6 +15,19 @@ package com.mycompany.act3;
 public class Act3 {
 
     public static void main(String[] args) {
-        System.out.println("Hello World!");
+        try {
+            // Set System L&F
+            UIManager.setLookAndFeel(
+            UIManager.getSystemLookAndFeelClassName());
+        } 
+        catch (UnsupportedLookAndFeelException | 
+               ClassNotFoundException | 
+               InstantiationException | 
+               IllegalAccessException e) {
+            // handle exception
+        }
+        
+        PantallaPrincipal pantallaPrincipal = new PantallaPrincipal();
+        pantallaPrincipal.setVisible(true);
     }
 }
