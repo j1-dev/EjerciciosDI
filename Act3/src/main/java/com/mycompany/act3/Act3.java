@@ -4,7 +4,7 @@
 
 package com.mycompany.act3;
 
-import gestionclientes.gui.PantallaPrincipal;
+import com.gestionclientes.gui.PantallaPrincipal;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
