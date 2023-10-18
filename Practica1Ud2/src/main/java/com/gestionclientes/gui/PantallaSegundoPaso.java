@@ -23,6 +23,9 @@ public class PantallaSegundoPaso extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         principal = (PantallaPrincipal) parent;
+        cbDeportes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Ciclismo", "Outdoor", "Fitness", "Deportes acuáticos", "Running/Caminar", "Deportes de raqueta", "Deportes de equipo", "Deportes de invierno", "Patines", "Deportes de precisión", "Deportes de combate", "Baile" }));
+        cbTallaRopa.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {"XXXL","XXL", "XL", "L", "M", "S", "XS", "XXS"}));
+        cbTallaPie.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {"35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50"}));
     }
 
     /**
@@ -156,7 +159,7 @@ public class PantallaSegundoPaso extends javax.swing.JDialog {
     }//GEN-LAST:event_btAtrasActionPerformed
 
     private void btFinalizarActionPerformed(java.awt.event.ActionEvent evt){
-        this.dispose();
+        
     }
     
     public void setPrimerPaso(PantallaPrimerPaso primerPaso){
