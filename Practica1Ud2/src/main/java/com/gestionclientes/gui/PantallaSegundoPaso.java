@@ -1,6 +1,11 @@
 package com.gestionclientes.gui;
 
 import com.gestionclientes.dto.Cliente;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import javax.swing.DefaultListModel;
+import javax.swing.ListSelectionModel;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -13,7 +18,7 @@ import com.gestionclientes.dto.Cliente;
  */
 public class PantallaSegundoPaso extends javax.swing.JDialog {
     private PantallaPrimerPaso primerPaso;
-    private PantallaPrincipal principal;
+    private final PantallaPrincipal principal;
     private Cliente cliente;
     
     /**
@@ -21,9 +26,21 @@ public class PantallaSegundoPaso extends javax.swing.JDialog {
      */
     public PantallaSegundoPaso(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
+        System.out.println("crear segunda pantalla");
+
         initComponents();
+        btFinalizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btFinalizarActionPerformed(evt);
+            }
+        });
         principal = (PantallaPrincipal) parent;
-        cbDeportes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Ciclismo", "Outdoor", "Fitness", "Deportes acuáticos", "Running/Caminar", "Deportes de raqueta", "Deportes de equipo", "Deportes de invierno", "Patines", "Deportes de precisión", "Deportes de combate", "Baile" }));
+        ArrayList<String> listaAux = new ArrayList<String>(Arrays.asList("Ciclismo", "Outdoor", "Fitness", "Deportes acuáticos", "Running/Caminar", "Deportes de raqueta", "Deportes de equipo", "Deportes de invierno", "Patines", "Deportes de precisión", "Deportes de combate", "Baile"));
+        DefaultListModel<String> modelo = new DefaultListModel();
+        modelo.addAll(listaAux);
+        listaDeportes.setModel(modelo);
+        listaDeportes.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+        listaDeportes.setVisibleRowCount(7);
         cbTallaRopa.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {"XXXL","XXL", "XL", "L", "M", "S", "XS", "XXS"}));
         cbTallaPie.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {"35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50"}));
     }
@@ -164,15 +181,24 @@ public class PantallaSegundoPaso extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btAtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAtrasActionPerformed
-        setVisible(false);
+        dispose();
         primerPaso.setVisible(true);
     }//GEN-LAST:event_btAtrasActionPerformed
 
     private void btFinalizarActionPerformed(java.awt.event.ActionEvent evt){
-        String[] deportes = (String[])listaDeportes.getSelectedValuesList().toArray();
+        List<String> deportes = listaDeportes.getSelectedValuesList();
+        String parsedDeportes = "";
+        for(String deporte : deportes){
+            parsedDeportes += deportes + ", ";
+        }
         String tallaRopa = (String)cbTallaRopa.getSelectedItem();
         String tallaPie = (String)cbTallaPie.getSelectedItem();
-        String edad = tfEdad.getText
+        String edad = tfEdad.getText();
+        Cliente clienteFinal = new Cliente(cliente.getNombre(),cliente.getApellidos(),cliente.getGenero(),cliente.getDni(),cliente.getCorreo(), parsedDeportes, tallaRopa, tallaPie, Integer.parseInt(edad), true);
+        principal.anadirCliente(clienteFinal);
+        dispose();        
+        setVisible(false);
+        primerPaso.dispose();
     }
     
     public void setPrimerPaso(PantallaPrimerPaso primerPaso){
@@ -181,48 +207,6 @@ public class PantallaSegundoPaso extends javax.swing.JDialog {
     
     public void setCliente(Cliente cliente){
         this.cliente = cliente;
-    }
-    
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(PantallaSegundoPaso.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(PantallaSegundoPaso.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(PantallaSegundoPaso.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(PantallaSegundoPaso.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                PantallaSegundoPaso dialog = new PantallaSegundoPaso(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

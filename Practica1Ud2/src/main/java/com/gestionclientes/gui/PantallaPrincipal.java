@@ -83,7 +83,7 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         opBaja.setVerifyInputWhenFocusTarget(false);
         opBaja.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                opNuevoActionPerformed(evt);
+                opBajaActionPerformed(evt);
             }
         });
         jMenu1.add(opBaja);
@@ -114,7 +114,12 @@ public class PantallaPrincipal extends javax.swing.JFrame {
     private void opNuevoActionPerformed(java.awt.event.ActionEvent evt) {                                        
         PantallaPrimerPaso alta = new PantallaPrimerPaso(this,true);
         alta.setVisible(true);
-    }                                       
+    }  
+    
+    private void opBajaActionPerformed(java.awt.event.ActionEvent evt) {                                        
+        PantallaPrimerPaso alta = new PantallaPrimerPaso(this,true);
+        alta.setVisible(true);
+    } 
 
     /**
      * @param args the command line arguments

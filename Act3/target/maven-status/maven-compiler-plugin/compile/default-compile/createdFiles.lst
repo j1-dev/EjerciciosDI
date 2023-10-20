@@ -1,9 +1,9 @@
-gestionclientes/gui/PantallaDialogo$1.class
-gestionclientes/gui/PantallaDialogo$3.class
-gestionclientes/dto/Cliente.class
-gestionclientes/gui/PantallaPrincipal.class
-gestionclientes/gui/PantallaPrincipal$2.class
-gestionclientes/gui/PantallaDialogo.class
+com/gestionclientes/gui/PantallaPrincipal.class
+com/gestionclientes/gui/PantallaPrincipal$1.class
+com/gestionclientes/gui/PantallaDialogo$3.class
+com/gestionclientes/dto/Cliente.class
+com/gestionclientes/gui/PantallaDialogo$1.class
+com/gestionclientes/gui/PantallaDialogo.class
 com/mycompany/act3/Act3.class
-gestionclientes/gui/PantallaPrincipal$1.class
-gestionclientes/gui/PantallaDialogo$2.class
+com/gestionclientes/gui/PantallaPrincipal$2.class
+com/gestionclientes/gui/PantallaDialogo$2.class

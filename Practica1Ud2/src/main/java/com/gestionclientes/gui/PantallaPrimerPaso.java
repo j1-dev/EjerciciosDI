@@ -21,14 +21,7 @@ public class PantallaPrimerPaso extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         
-        btAlta.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btAltaActionPerformed(evt);
-            }
-        });
         pantallaPrincipal = (PantallaPrincipal) parent;
-        segundoPaso = new PantallaSegundoPaso(parent,true);
-        segundoPaso.setPrimerPaso(this);
         cbGenero.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Masculino", "Femenino", "No binario", "Prefiere no decir" }));
     }
 
@@ -196,9 +189,12 @@ public class PantallaPrimerPaso extends javax.swing.JDialog {
           
         if(!nombre.isEmpty() && !apellidos.isEmpty() && !genero.isEmpty() && !correo.isEmpty()){
             Cliente cliente = new Cliente(nombre, apellidos, genero, dni, correo); 
+            if(segundoPaso == null){            
+                segundoPaso = new PantallaSegundoPaso(pantallaPrincipal,true);
+            }
             segundoPaso.setCliente(cliente);                        
+            segundoPaso.setPrimerPaso(this);
             setVisible(false);
-
             segundoPaso.setVisible(true);
             //pantallaPrincipal.anadirCliente(cliente);
         } else {
