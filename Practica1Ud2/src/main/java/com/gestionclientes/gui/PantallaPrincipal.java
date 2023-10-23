@@ -33,6 +33,11 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         DefaultTableModel dtm = (DefaultTableModel)tbClientes.getModel();
         dtm.addRow(cliente.toArrayString());
     }
+    
+    public void borrarCliente(int index){
+        DefaultTableModel dtm = (DefaultTableModel)tbClientes.getModel();
+        dtm.removeRow(index);  
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -117,10 +122,15 @@ public class PantallaPrincipal extends javax.swing.JFrame {
     }  
     
     private void opBajaActionPerformed(java.awt.event.ActionEvent evt) {                                        
-        PantallaPrimerPaso alta = new PantallaPrimerPaso(this,true);
-        alta.setVisible(true);
+        PantallaBaja baja = new PantallaBaja(this,true);
+        baja.setTbClientes(tbClientes);
+        baja.setVisible(true);
     } 
-
+    
+    public javax.swing.JTable getTbClientes(){
+        return tbClientes;
+    }
+    
     /**
      * @param args the command line arguments
      */
