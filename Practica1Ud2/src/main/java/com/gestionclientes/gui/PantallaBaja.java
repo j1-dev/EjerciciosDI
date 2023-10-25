@@ -6,21 +6,21 @@ package com.gestionclientes.gui;
 
 import com.gestionclientes.dto.Cliente;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author j1
  */
 public class PantallaBaja extends javax.swing.JDialog {
-    private javax.swing.JTable table;
+    
     /**
      * Creates new form PantallaBaja
      */
     public PantallaBaja(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        
-        
+        principal = (PantallaPrincipal)parent;
     }
 
     /**
@@ -81,26 +81,38 @@ public class PantallaBaja extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btBajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btBajaActionPerformed
-        // TODO add your handling code here:
+        int resultado = JOptionPane.showConfirmDialog(this,"¿Seguro que quiere borrar el cliente?", "borrar", JOptionPane.YES_NO_OPTION);
+        if(resultado==JOptionPane.YES_OPTION){
+            JOptionPane.showMessageDialog(this, "Cliente borrado", "OK", JOptionPane.INFORMATION_MESSAGE);
+            principal.borrarCliente(cbClientes.getSelectedIndex());
+        dispose();
+        } else {
+            JOptionPane.showMessageDialog(this, "No se ha borrado ningún cliente", "OK", JOptionPane.INFORMATION_MESSAGE);
+        }
     }//GEN-LAST:event_btBajaActionPerformed
 
     public void setTbClientes(javax.swing.JTable table){
         this.table = table;
         ArrayList<String> array = getFirstColumnData(table);
         System.out.println(array.toString());
-        cbClientes.setModel(new javax.swing.DefaultComboBoxModel<>(array.toArray()));
+        String[] strArray = new String[array.size()];
+        for(int i = 0; i<array.size();i++){
+            strArray[i] = array.get(i);
+        }
+    
+        cbClientes.setModel(new javax.swing.DefaultComboBoxModel<>(strArray));
     }
     
     public ArrayList<String> getFirstColumnData(javax.swing.JTable  table) {
-    ArrayList<String> firstColumnData = new ArrayList<>();
+        ArrayList<String> firstColumnData = new ArrayList<>();
 
-    for (int row = 0; row < table.getRowCount(); row++) {
-        String cellValue = table.getValueAt(row, 0).toString();
-        firstColumnData.add(cellValue);
+        for (int row = 0; row < table.getRowCount(); row++) {
+            String cellValue = table.getValueAt(row, 0).toString();
+            firstColumnData.add(cellValue);
+        }
+
+        return firstColumnData;
     }
-
-    return firstColumnData;
-}
     /**
      * @param args the command line arguments
      */
@@ -143,6 +155,8 @@ public class PantallaBaja extends javax.swing.JDialog {
         });
     }
 
+    private javax.swing.JTable table;
+    private PantallaPrincipal principal;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btBaja;
     private javax.swing.JComboBox<String> cbClientes;

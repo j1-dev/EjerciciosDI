@@ -5,8 +5,6 @@
 package com.gestionclientes.gui;
 
 import com.gestionclientes.dto.Cliente;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -164,17 +162,17 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                try {
-                    // Set System L&F
-                    UIManager.setLookAndFeel(
-                    UIManager.getSystemLookAndFeelClassName());
-                } 
-                catch (UnsupportedLookAndFeelException | 
-                       ClassNotFoundException | 
-                       InstantiationException | 
-                       IllegalAccessException e) {
-                    // handle exception
-                }
+//                try {
+//                    // Set System L&F
+//                    UIManager.setLookAndFeel(
+//                    UIManager.getSystemLookAndFeelClassName());
+//                } 
+//                catch (UnsupportedLookAndFeelException | 
+//                       ClassNotFoundException | 
+//                       InstantiationException | 
+//                       IllegalAccessException e) {
+//                    // handle exception
+//                }
 
                 PantallaPrincipal pantallaPrincipal = new PantallaPrincipal();
                 pantallaPrincipal.setVisible(true);
