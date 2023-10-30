@@ -5,6 +5,7 @@
 package com.gestionhotel.gui;
 
 import javax.swing.JOptionPane;
+import javax.swing.SpinnerDateModel;
 
 /**
  *
@@ -171,7 +172,8 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         String sala = jTabbedPane1.getTitleAt(jTabbedPane1.getSelectedIndex());
         int resultado = JOptionPane.showConfirmDialog(this,"Crear evento en la sala " + sala + "?", "Crear evento", JOptionPane.YES_NO_OPTION);
         if(resultado==JOptionPane.YES_OPTION){
-            
+            PantallaPrimerPaso ppp = new PantallaPrimerPaso(this, true);
+            ppp.setVisible(true);
         } 
     }//GEN-LAST:event_btNuevoActionPerformed
 
