@@ -172,8 +172,8 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         String sala = jTabbedPane1.getTitleAt(jTabbedPane1.getSelectedIndex());
         int resultado = JOptionPane.showConfirmDialog(this,"Crear evento en la sala " + sala + "?", "Crear evento", JOptionPane.YES_NO_OPTION);
         if(resultado==JOptionPane.YES_OPTION){
-            PantallaPrimerPaso ppp = new PantallaPrimerPaso(this, true);
-            ppp.setVisible(true);
+            PantallaPersona pp = new PantallaPersona(this, true);
+            pp.setVisible(true);
         } 
     }//GEN-LAST:event_btNuevoActionPerformed
 

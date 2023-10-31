@@ -16,6 +16,7 @@ import javax.swing.SpinnerDateModel;
  * @author j1
  */
 public class PantallaPrimerPaso extends javax.swing.JDialog {
+    
 
     /**
      * Creates new form PantallaPrimerPaso
@@ -23,6 +24,7 @@ public class PantallaPrimerPaso extends javax.swing.JDialog {
     public PantallaPrimerPaso(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        pantallaPrincipal = (PantallaPrincipal)parent;
         pnCongreso.setVisible(false);
         sFecha.setModel(new SpinnerDateModel(new Date(), null, null, Calendar.MONTH));
         sFecha.setEditor(new JSpinner.DateEditor(sFecha,"dd/MM/yy"));
@@ -49,8 +51,8 @@ public class PantallaPrimerPaso extends javax.swing.JDialog {
         tfNumDias = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         etNumPersonas = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        btAtras = new javax.swing.JButton();
+        btSiguiente = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -111,9 +113,19 @@ public class PantallaPrimerPaso extends javax.swing.JDialog {
             }
         });
 
-        jButton1.setText("Atrás");
+        btAtras.setText("Atrás");
+        btAtras.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btAtrasActionPerformed(evt);
+            }
+        });
 
-        jButton2.setText("Siguiente");
+        btSiguiente.setText("Siguiente");
+        btSiguiente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btSiguienteActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -139,9 +151,9 @@ public class PantallaPrimerPaso extends javax.swing.JDialog {
                                 .addComponent(jLabel1)
                                 .addGap(278, 278, 278))
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(btAtras, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(btSiguiente, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                 .addComponent(jLabel2)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -171,8 +183,8 @@ public class PantallaPrimerPaso extends javax.swing.JDialog {
                     .addComponent(etNumPersonas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btAtras, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
+                    .addComponent(btSiguiente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(24, 24, 24))
         );
 
@@ -195,9 +207,15 @@ public class PantallaPrimerPaso extends javax.swing.JDialog {
         pnCongreso.setVisible(true);
     }//GEN-LAST:event_rbCongresoActionPerformed
 
-    private void rgTipoActionPerformed(java.awt.event.ActionEvent evt){
-        
-    }
+    private void btAtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAtrasActionPerformed
+        pantallaPersona.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_btAtrasActionPerformed
+
+    private void btSiguienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSiguienteActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btSiguienteActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -240,10 +258,30 @@ public class PantallaPrimerPaso extends javax.swing.JDialog {
         });
     }
 
+    public PantallaPersona getPantallaPersona() {
+        return pantallaPersona;
+    }
+
+    public void setPantallaPersona(PantallaPersona pantallaPersona) {
+        this.pantallaPersona = pantallaPersona;
+    }
+
+    public PantallaPrincipal getPantallaPrincipal() {
+        return pantallaPrincipal;
+    }
+
+    public void setPantallaPrincipal(PantallaPrincipal pantallaPrincipal) {
+        this.pantallaPrincipal = pantallaPrincipal;
+    }
+    
+    
+
+    private PantallaPersona pantallaPersona;
+    private PantallaPrincipal pantallaPrincipal;
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btAtras;
+    private javax.swing.JButton btSiguiente;
     private javax.swing.JTextField etNumPersonas;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
