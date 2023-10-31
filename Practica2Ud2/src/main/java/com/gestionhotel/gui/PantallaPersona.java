@@ -12,6 +12,7 @@ import javax.swing.JOptionPane;
  */
 public class PantallaPersona extends javax.swing.JDialog {
     private PantallaPrincipal padre;
+    private PantallaPrimerPaso ppp;
 
     /**
      * Creates new form PantallaPersona
@@ -111,8 +112,9 @@ public class PantallaPersona extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btSiguienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSiguienteActionPerformed
-        PantallaPrimerPaso ppp;
-        ppp = new PantallaPrimerPaso(padre,true);
+        if(ppp==null)
+            ppp = new PantallaPrimerPaso(padre,true);
+        
         ppp.setPantallaPersona(this);
         setVisible(false);
         ppp.setVisible(true);
