@@ -4,12 +4,14 @@
  */
 package com.gestionhotel.gui;
 
+import com.gestionhotel.dto.Evento;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import javax.swing.ButtonModel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerDateModel;
+import com.gestionhotel.dto.Persona;
 
 /**
  *
@@ -226,7 +228,16 @@ public class PantallaPrimerPaso extends javax.swing.JDialog {
     }//GEN-LAST:event_btAtrasActionPerformed
 
     private void btSiguienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSiguienteActionPerformed
-        // TODO add your handling code here:
+        if(pantallaSegundoPaso==null){
+            pantallaSegundoPaso = new PantallaSegundoPaso(pantallaPrincipal, true);
+        }
+        pantallaSegundoPaso.setPantallaPrimerPaso(this);
+        
+        Evento e = new Evento();
+        pantallaSegundoPaso.setEvento(e);
+        setVisible(false);
+        pantallaSegundoPaso.setVisible(true);
+        
     }//GEN-LAST:event_btSiguienteActionPerformed
 
     /**
@@ -287,10 +298,16 @@ public class PantallaPrimerPaso extends javax.swing.JDialog {
         this.pantallaPrincipal = pantallaPrincipal;
     }
     
+    public void setPersona(Persona persona){
+        this.persona = persona;
+    }
+    
     
 
     private PantallaPersona pantallaPersona;
+    private PantallaSegundoPaso pantallaSegundoPaso;
     private PantallaPrincipal pantallaPrincipal;
+    private Persona persona;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btAtras;
     private javax.swing.JButton btSiguiente;

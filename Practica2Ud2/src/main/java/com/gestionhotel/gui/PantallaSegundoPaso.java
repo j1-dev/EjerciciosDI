@@ -4,6 +4,8 @@
  */
 package com.gestionhotel.gui;
 
+import com.gestionhotel.dto.Evento;
+
 /**
  *
  * @author j1
@@ -15,6 +17,7 @@ public class PantallaSegundoPaso extends javax.swing.JDialog {
      */
     public PantallaSegundoPaso(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
+        pantallaPrincipal=(PantallaPrincipal) parent;
         initComponents();
     }
 
@@ -31,6 +34,8 @@ public class PantallaSegundoPaso extends javax.swing.JDialog {
         jComboBox1 = new javax.swing.JComboBox<>();
         jLabel2 = new javax.swing.JLabel();
         jCheckBox1 = new javax.swing.JCheckBox();
+        btSiguiente = new javax.swing.JButton();
+        btAtras = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -40,18 +45,36 @@ public class PantallaSegundoPaso extends javax.swing.JDialog {
 
         jLabel2.setText("Cita con el chef?");
 
+        btSiguiente.setText("Siguiente");
+        btSiguiente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btSiguienteActionPerformed(evt);
+            }
+        });
+
+        btAtras.setText("Atrás");
+        btAtras.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btAtrasActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(20, 20, 20)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addGroup(layout.createSequentialGroup()
+                        .addComponent(btAtras, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btSiguiente, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jCheckBox1))
-                    .addGroup(layout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addGap(50, 50, 50)
                         .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -68,11 +91,25 @@ public class PantallaSegundoPaso extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(jCheckBox1))
-                .addContainerGap(195, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 109, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btSiguiente, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btAtras, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(27, 27, 27))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btSiguienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSiguienteActionPerformed
+        
+
+    }//GEN-LAST:event_btSiguienteActionPerformed
+
+    private void btAtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAtrasActionPerformed
+        dispose();
+        pantallaPrimerPaso.setVisible(true);
+    }//GEN-LAST:event_btAtrasActionPerformed
 
     /**
      * @param args the command line arguments
@@ -115,11 +152,24 @@ public class PantallaSegundoPaso extends javax.swing.JDialog {
             }
         });
     }
+    
+    public void setEvento(Evento evento){
+        this.evento = evento;
+    }
 
+    Evento evento;
+    PantallaPrimerPaso pantallaPrimerPaso;
+    PantallaPrincipal pantallaPrincipal;
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btAtras;
+    private javax.swing.JButton btSiguiente;
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     // End of variables declaration//GEN-END:variables
+
+    void setPantallaPrimerPaso(PantallaPrimerPaso pantallaPrimerPaso) {
+        this.pantallaPrimerPaso=pantallaPrimerPaso;
+    }
 }

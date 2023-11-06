@@ -8,8 +8,16 @@ package com.gestionhotel.dto;
  *
  * @author j1
  */
-class Persona {
+public class Persona {
     private String nombre;
     private int numTlf;
     private String direccion;
+
+    public Persona(String nombre, int numTlf, String direccion) {
+        this.nombre = nombre;
+        this.numTlf = numTlf;
+        this.direccion = direccion;
+    }
+    
+    
 }

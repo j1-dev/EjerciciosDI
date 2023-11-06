@@ -4,6 +4,7 @@
  */
 package com.gestionhotel.gui;
 
+import com.gestionhotel.dto.Persona;
 import javax.swing.JOptionPane;
 
 /**
@@ -114,8 +115,10 @@ public class PantallaPersona extends javax.swing.JDialog {
     private void btSiguienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSiguienteActionPerformed
         if(ppp==null)
             ppp = new PantallaPrimerPaso(padre,true);
-        
         ppp.setPantallaPersona(this);
+        
+        Persona p = new Persona(tfNombre.getText().toString(), Integer.valueOf(tfTelefono.getText().toString()), tfDireccion.getText().toString());
+        ppp.setPersona(p);
         setVisible(false);
         ppp.setVisible(true);
     }//GEN-LAST:event_btSiguienteActionPerformed
