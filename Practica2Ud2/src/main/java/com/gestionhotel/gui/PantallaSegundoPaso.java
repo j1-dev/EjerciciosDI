@@ -5,20 +5,34 @@
 package com.gestionhotel.gui;
 
 import com.gestionhotel.dto.Evento;
+import com.gestionhotel.dto.Persona;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  *
  * @author j1
  */
 public class PantallaSegundoPaso extends javax.swing.JDialog {
-
+    
+    private Evento evento;
+    private PantallaPrimerPaso pantallaPrimerPaso;
+    private PantallaPrincipal pantallaPrincipal;
+    private String[] tiposCocina = {"Buffet", "Buffet Vegetariano", "Carta"};
+    private String[] tiposHabitacion = {"Individual", "Doble Dos Camas", "Doble Cama Matrimonio"};
+    private boolean requiereHabitaciones;
+    
     /**
      * Creates new form PantallaSegundoPaso
      */
-    public PantallaSegundoPaso(java.awt.Frame parent, boolean modal) {
+    public PantallaSegundoPaso(java.awt.Frame parent, boolean modal, boolean requiereHabitaciones) {
         super(parent, modal);
         pantallaPrincipal=(PantallaPrincipal) parent;
         initComponents();
+        setTitle("Hotel Marshall | Datos de la Reserva (2/2)");
+        cbCocina.setModel(new javax.swing.DefaultComboBoxModel<>(tiposCocina));
+        cbTipoHabitacion.setModel(new javax.swing.DefaultComboBoxModel<>(tiposHabitacion));
     }
 
     /**
@@ -31,21 +45,32 @@ public class PantallaSegundoPaso extends javax.swing.JDialog {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        cbCocina = new javax.swing.JComboBox<>();
         jLabel2 = new javax.swing.JLabel();
-        jCheckBox1 = new javax.swing.JCheckBox();
+        checkCita = new javax.swing.JCheckBox();
         btSiguiente = new javax.swing.JButton();
         btAtras = new javax.swing.JButton();
+        pnHabitaciones = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
+        tfNumHabitaciones = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        cbTipoHabitacion = new javax.swing.JComboBox<>();
+        etError = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel1.setText("Tipo de cocina");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbCocina.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbCocina.setToolTipText("Tipo de cocina que se requerirá para el evento");
 
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel2.setText("Cita con el chef?");
 
-        btSiguiente.setText("Siguiente");
+        checkCita.setToolTipText("Necesitará cita con el chef?");
+
+        btSiguiente.setText("Finalizar");
         btSiguiente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btSiguienteActionPerformed(evt);
@@ -59,26 +84,75 @@ public class PantallaSegundoPaso extends javax.swing.JDialog {
             }
         });
 
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel3.setText("Número de habitaciones:");
+
+        tfNumHabitaciones.setToolTipText("Número de habitaciones necesarias para los atendientes del evento");
+        tfNumHabitaciones.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tfNumHabitacionesActionPerformed(evt);
+            }
+        });
+
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel4.setText("Tipo de habitacion");
+
+        cbTipoHabitacion.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbTipoHabitacion.setToolTipText("Tipo de habitaciones necesarias");
+
+        javax.swing.GroupLayout pnHabitacionesLayout = new javax.swing.GroupLayout(pnHabitaciones);
+        pnHabitaciones.setLayout(pnHabitacionesLayout);
+        pnHabitacionesLayout.setHorizontalGroup(
+            pnHabitacionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnHabitacionesLayout.createSequentialGroup()
+                .addGroup(pnHabitacionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel4))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 104, Short.MAX_VALUE)
+                .addGroup(pnHabitacionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(tfNumHabitaciones)
+                    .addComponent(cbTipoHabitacion, 0, 159, Short.MAX_VALUE)))
+        );
+        pnHabitacionesLayout.setVerticalGroup(
+            pnHabitacionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnHabitacionesLayout.createSequentialGroup()
+                .addGap(9, 9, 9)
+                .addGroup(pnHabitacionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(tfNumHabitaciones, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(pnHabitacionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(cbTipoHabitacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(16, Short.MAX_VALUE))
+        );
+
+        etError.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        etError.setForeground(new java.awt.Color(255, 51, 51));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(20, 20, 20)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btAtras, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btSiguiente, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jCheckBox1))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(50, 50, 50)
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(27, Short.MAX_VALUE))
+                        .addGap(282, 282, 282))
+                    .addComponent(btSiguiente, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(jLabel2)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(checkCita))
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(jLabel1)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(cbCocina, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(pnHabitaciones, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(etError)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -86,12 +160,16 @@ public class PantallaSegundoPaso extends javax.swing.JDialog {
                 .addGap(24, 24, 24)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(38, 38, 38)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(jCheckBox1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 109, Short.MAX_VALUE)
+                    .addComponent(cbCocina, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(27, 27, 27)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(checkCita)
+                    .addComponent(jLabel2))
+                .addGap(26, 26, 26)
+                .addComponent(pnHabitaciones, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(etError)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btSiguiente, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btAtras, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -102,8 +180,51 @@ public class PantallaSegundoPaso extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btSiguienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSiguienteActionPerformed
+        String tipoCocina = cbCocina.getSelectedItem().toString();
+        boolean citaConChef = checkCita.isSelected();
+        int numHabitaciones = -1;
+        String tipoHabitacion = "";
         
-
+        if(evento.isRequiereHabitaciones()){
+            String tfNumHabitacionesText = tfNumHabitaciones.getText();
+            if(isNumeric(tfNumHabitacionesText)){
+                numHabitaciones = Integer.parseInt(tfNumHabitaciones.getText());
+                tipoHabitacion = cbTipoHabitacion.getSelectedItem().toString();
+            } else {
+                etError.setText("ERROR: El campo 'numero de habitaciones' debe ser un número");
+                return;
+            }
+        } else {
+            numHabitaciones = 0;
+            tipoHabitacion = "---";
+        }
+        
+        if(!(tipoCocina.isEmpty() || tipoHabitacion.isEmpty())){
+            etError.setText("");
+            Evento e = new Evento(evento.getPersona(), evento.getSala(), evento.getTipoEvento(), evento.getFechaInicio(), evento.getFechaFin(), evento.getNumPersonas(), evento.getNumDias(), tipoCocina, citaConChef, evento.isRequiereHabitaciones(), numHabitaciones,  tipoHabitacion);
+            ArrayList<Evento> evTodos = pantallaPrincipal.getAllEventos();
+            evTodos.add(e);
+            pantallaPrincipal.setAllEventos(evTodos);
+            if (e.getSala().equals("Habana")){
+                ArrayList<Evento> evHabana = pantallaPrincipal.getEventosHabana();
+                evHabana.add(e);   
+                pantallaPrincipal.setEventosHabana(evHabana);
+                dispose();
+            } else if (e.getSala().equals("Camaguei")){
+                ArrayList<Evento> evCamaguei = pantallaPrincipal.getEventosCamaguei();
+                evCamaguei.add(e);
+                pantallaPrincipal.setEventosCamaguei(evCamaguei);
+                dispose();
+            } else if (e.getSala().equals("Varadero")){
+                ArrayList<Evento> evVaradero = pantallaPrincipal.getEventosVaradero();
+                evVaradero.add(e);
+                pantallaPrincipal.setEventosVaradero(evVaradero);
+                dispose();
+            }
+        } else {
+            etError.setText("ERROR: Todos los campos deben estar rellenos");
+            return;
+        }
     }//GEN-LAST:event_btSiguienteActionPerformed
 
     private void btAtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAtrasActionPerformed
@@ -111,65 +232,44 @@ public class PantallaSegundoPaso extends javax.swing.JDialog {
         pantallaPrimerPaso.setVisible(true);
     }//GEN-LAST:event_btAtrasActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(PantallaSegundoPaso.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(PantallaSegundoPaso.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(PantallaSegundoPaso.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(PantallaSegundoPaso.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
+    private void tfNumHabitacionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfNumHabitacionesActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tfNumHabitacionesActionPerformed
 
-        /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                PantallaSegundoPaso dialog = new PantallaSegundoPaso(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
-    }
     
-    public void setEvento(Evento evento){
-        this.evento = evento;
-    }
-
-    Evento evento;
-    PantallaPrimerPaso pantallaPrimerPaso;
-    PantallaPrincipal pantallaPrincipal;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btAtras;
     private javax.swing.JButton btSiguiente;
-    private javax.swing.JCheckBox jCheckBox1;
-    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JComboBox<String> cbCocina;
+    private javax.swing.JComboBox<String> cbTipoHabitacion;
+    private javax.swing.JCheckBox checkCita;
+    private javax.swing.JLabel etError;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JPanel pnHabitaciones;
+    private javax.swing.JTextField tfNumHabitaciones;
     // End of variables declaration//GEN-END:variables
 
     void setPantallaPrimerPaso(PantallaPrimerPaso pantallaPrimerPaso) {
         this.pantallaPrimerPaso=pantallaPrimerPaso;
+    }
+
+    public boolean isRequiereHabitaciones() {
+        return requiereHabitaciones;
+    }
+
+    public void setRequiereHabitaciones(boolean requiereHabitaciones) {
+        this.requiereHabitaciones = requiereHabitaciones;
+        pnHabitaciones.setVisible(requiereHabitaciones);
+    }
+    
+    private boolean isNumeric(String str) {
+        return str.matches("\\d+");
+    }
+    
+    public void setEvento(Evento evento){
+        this.evento = evento;
     }
 }

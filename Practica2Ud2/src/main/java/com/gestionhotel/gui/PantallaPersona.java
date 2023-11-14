@@ -12,16 +12,18 @@ import javax.swing.JOptionPane;
  * @author j1
  */
 public class PantallaPersona extends javax.swing.JDialog {
-    private PantallaPrincipal padre;
-    private PantallaPrimerPaso ppp;
-
+    
+    private PantallaPrincipal pantallaPrincipal;
+    private PantallaPrimerPaso pantallaPrimerPaso;
+    private String sala;
     /**
      * Creates new form PantallaPersona
      */
     public PantallaPersona(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        padre = (PantallaPrincipal)parent;
+        pantallaPrincipal = (PantallaPrincipal)parent;
+        setTitle("Hotel Marshall | Datos Personales");
     }
 
     /**
@@ -41,14 +43,24 @@ public class PantallaPersona extends javax.swing.JDialog {
         tfDireccion = new javax.swing.JTextField();
         btSiguiente = new javax.swing.JButton();
         btAtras = new javax.swing.JButton();
+        etError = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel1.setText("Nombre");
 
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel2.setText("Teléfono");
 
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel3.setText("Dirección");
+
+        tfNombre.setToolTipText("Nombre del reservante");
+
+        tfTelefono.setToolTipText("Teléfono del reservante");
+
+        tfDireccion.setToolTipText("Dirección del reservante");
 
         btSiguiente.setText("Siguiente");
         btSiguiente.addActionListener(new java.awt.event.ActionListener() {
@@ -64,28 +76,36 @@ public class PantallaPersona extends javax.swing.JDialog {
             }
         });
 
+        etError.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        etError.setForeground(new java.awt.Color(255, 51, 51));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addGap(20, 20, 20)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(btAtras, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 88, Short.MAX_VALUE)
-                        .addComponent(btSiguiente, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(etError)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel2))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(tfNombre, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE)
-                            .addComponent(tfTelefono)
-                            .addComponent(tfDireccion))))
-                .addGap(24, 24, 24))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(btAtras, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 114, Short.MAX_VALUE)
+                                .addComponent(btSiguiente, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel1)
+                                    .addComponent(jLabel3)
+                                    .addComponent(jLabel2))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(tfNombre, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE)
+                                    .addComponent(tfTelefono)
+                                    .addComponent(tfDireccion))))
+                        .addGap(24, 24, 24))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -102,7 +122,9 @@ public class PantallaPersona extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(tfDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 56, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(etError)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(btSiguiente, javax.swing.GroupLayout.DEFAULT_SIZE, 60, Short.MAX_VALUE)
                     .addComponent(btAtras, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -113,65 +135,53 @@ public class PantallaPersona extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btSiguienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSiguienteActionPerformed
-        if(ppp==null)
-            ppp = new PantallaPrimerPaso(padre,true);
-        ppp.setPantallaPersona(this);
+        if(pantallaPrimerPaso==null)
+            pantallaPrimerPaso = new PantallaPrimerPaso(pantallaPrincipal,true);
+        pantallaPrimerPaso.setPantallaPersona(this);
         
-        Persona p = new Persona(tfNombre.getText().toString(), Integer.valueOf(tfTelefono.getText().toString()), tfDireccion.getText().toString());
-        ppp.setPersona(p);
-        setVisible(false);
-        ppp.setVisible(true);
+        String nombre = tfNombre.getText();
+        int telefono = -1;
+        if(isNumeric(tfTelefono.getText())){
+            telefono = Integer.parseInt(tfTelefono.getText());
+        } else {
+            etError.setText("ERROR: El campo 'numero de teléfono' debe ser un número");
+            return;
+        }
+        String direccion = tfDireccion.getText();
+        if(!(nombre.isEmpty() || direccion.isEmpty())){
+            Persona p = new Persona(nombre, telefono, direccion);
+            pantallaPrimerPaso.setPersona(p);
+            pantallaPrimerPaso.setSala(sala);
+            etError.setText("");
+            setVisible(false);
+            pantallaPrimerPaso.setVisible(true);
+        } else {
+            etError.setText("ERROR: Todos los campos deben estar rellenos");
+        }
+        
     }//GEN-LAST:event_btSiguienteActionPerformed
 
     private void btAtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAtrasActionPerformed
         setVisible(false);
     }//GEN-LAST:event_btAtrasActionPerformed
+    
+    private boolean isNumeric(String str) {
+        return str.matches("\\d+");
+    }
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(PantallaPersona.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(PantallaPersona.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(PantallaPersona.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(PantallaPersona.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
+    
+    public String getSala() {
+        return sala;
+    }
 
-        /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                PantallaPersona dialog = new PantallaPersona(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
+    public void setSala(String sala) {
+        this.sala = sala;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btAtras;
     private javax.swing.JButton btSiguiente;
+    private javax.swing.JLabel etError;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

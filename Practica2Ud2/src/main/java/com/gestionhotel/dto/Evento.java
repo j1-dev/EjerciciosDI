@@ -12,6 +12,7 @@ import java.util.Date;
  */
 public class Evento {
     private Persona persona;
+    private String sala;
     private String tipoEvento;
     private Date fechaInicio;
     private Date fechaFin;
@@ -25,8 +26,9 @@ public class Evento {
     
     public Evento(){}
 
-    public Evento(Persona persona, String tipoEvento, Date fechaInicio, Date fechaFin, int numPersonas, int numDias, boolean requiereHabitaciones) {
+    public Evento(Persona persona, String sala, String tipoEvento, Date fechaInicio, Date fechaFin, int numPersonas, int numDias, boolean requiereHabitaciones) {
         this.persona = persona;
+        this.sala = sala;
         this.tipoEvento = tipoEvento;
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
@@ -35,8 +37,9 @@ public class Evento {
         this.requiereHabitaciones = requiereHabitaciones;
     }
 
-    public Evento(Persona persona, String tipoEvento, Date fechaInicio, Date fechaFin, int numPersonas, int numDias, String tipoCocina, boolean citaConChef, boolean requiereHabitaciones, int numHabitaciones, String tipoHabitacion) {
+    public Evento(Persona persona, String sala, String tipoEvento, Date fechaInicio, Date fechaFin, int numPersonas, int numDias, String tipoCocina, boolean citaConChef, boolean requiereHabitaciones, int numHabitaciones, String tipoHabitacion) {
         this.persona = persona;
+        this.sala = sala;
         this.tipoEvento = tipoEvento;
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
@@ -55,6 +58,14 @@ public class Evento {
 
     public void setPersona(Persona persona) {
         this.persona = persona;
+    }
+
+    public String getSala() {
+        return sala;
+    }
+
+    public void setSala(String sala) {
+        this.sala = sala;
     }
 
     public String getTipoEvento() {
