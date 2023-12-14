@@ -15,6 +15,8 @@ public class Persona {
     private int edad;
     private String tipoCarnet;
     private int antiguedadCarnet;
+    
+    public Persona() {}
 
     public Persona(String nombre, String apellidos, String direccion, int edad, String tipoCarnet, int antiguedadCarnet) {
         this.nombre = nombre;

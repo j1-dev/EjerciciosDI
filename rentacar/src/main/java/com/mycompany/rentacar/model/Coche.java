@@ -16,6 +16,8 @@ public class Coche {
     private int kilometrosEnPrecio;
     private int precioPorKilometro;
     private String desperfectos;
+    
+    public Coche() {}
 
     public Coche(String tipoCoche, String modeloCoche, int precioDia, int precioSemana, int kilometrosEnPrecio, int precioPorKilometro, String desperfectos) {
         this.tipoCoche = tipoCoche;

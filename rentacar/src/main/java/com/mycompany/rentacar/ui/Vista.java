@@ -4,6 +4,8 @@
  */
 package com.mycompany.rentacar.ui;
 
+import com.mycompany.rentacar.model.Coche;
+import com.mycompany.rentacar.model.Persona;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
@@ -13,13 +15,19 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import javax.swing.BorderFactory;
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
@@ -35,6 +43,8 @@ public class Vista extends javax.swing.JFrame {
      * Creates new form Vista
      */
     public Vista() {
+        usuario = new Persona();
+        coche = new Coche();
         initComponents();
         initializePanels();
         initializeButtons();
@@ -111,13 +121,13 @@ public class Vista extends javax.swing.JFrame {
         gbc.insets = new Insets(10, 10, 10, 10); // Add padding around components
 
         // Create and add labels and text fields
-        addLabelAndTextField(vistaUsuario, gbc, "Nombre:", 0, 0);
-        addLabelAndTextField(vistaUsuario, gbc, "Apellidos:", 0, 1);
-        addLabelAndTextField(vistaUsuario, gbc, "Dirección:", 0, 2);
-        addLabelAndTextField(vistaUsuario, gbc, "Edad:", 0, 3);
-        addLabelAndTextField(vistaUsuario, gbc, "Tipo Carnet:", 0, 4);
-        addLabelAndTextField(vistaUsuario, gbc, "Antigüedad Carnet:", 0, 5);
-        
+        nombreTextField = addLabelAndTextField(vistaUsuario, gbc, "Nombre:", 0, 0);
+        apellidosTextField = addLabelAndTextField(vistaUsuario, gbc, "Apellidos:", 0, 1);
+        direccionTextField = addLabelAndTextField(vistaUsuario, gbc, "Dirección:", 0, 2);
+        edadTextField = addLabelAndTextField(vistaUsuario, gbc, "Edad:", 0, 3);
+        tipoCarnetTextField = addLabelAndTextField(vistaUsuario, gbc, "Tipo Carnet:", 0, 4);
+        antiguedadCarnetTextField = addLabelAndTextField(vistaUsuario, gbc, "Antigüedad Carnet:", 0, 5);
+
         int bottomMargin = 70; // Adjust this value to match the height of your buttons
         int topMargin = 20;
         vistaUsuario.setBorder(BorderFactory.createEmptyBorder(topMargin, 0, bottomMargin, 0));
@@ -130,6 +140,11 @@ public class Vista extends javax.swing.JFrame {
         contenedorVistas.add(vistaCoche, 2); // Add vistaCoche at layer 3
         vistaCoche.setBounds(0, 0, 700, 500); // Set bounds as needed
 
+        // Define options for different types of cars
+        String[] turismosOptions = {"Volkswagen", "Seat", "Skoda"};
+        String[] furgonetasOptions = {"Volkswagen (Caddy)", "Volkswagen (Transporter)", "Volkswagen (Crafter)",
+                "Fiat (Fiorino)", "Fiat (Scudo)", "Fiat (Ducato)"};
+
         vistaCoche.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
@@ -140,26 +155,35 @@ public class Vista extends javax.swing.JFrame {
         gbc.insets = new Insets(10, 10, 10, 10); // Add padding around components
 
         // Tipo de coche (using combo box)
-        addLabelAndComboBox(vistaCoche, gbc, "Tipo de coche:", 0, 0, 
-            new String[]{"Pequeño", "Mediano", "Monovolumen", "Furgoneta de carga", "Furgoneta de pasajeros"});
+        tipoCocheComboBox = addLabelAndComboBox(vistaCoche, gbc, "Tipo de coche:", 0, 0, new String[]{"Turismo", "Furgoneta"});
+        modeloCocheComboBox = addLabelAndComboBox(vistaCoche, gbc, "Coche concreto:", 0, 1, turismosOptions);
 
-        // Coche concreto (using combo box or text field)
-        addLabelAndTextField(vistaCoche, gbc, "Coche concreto:", 0, 1);
+        // Add an item listener to the tipoCocheComboBox
+        tipoCocheComboBox.addItemListener(new ItemListener() {
+            public void itemStateChanged(ItemEvent e) {
+                if (e.getStateChange() == ItemEvent.SELECTED) {
+                    String selectedType = (String) tipoCocheComboBox.getSelectedItem();
+                    if ("Turismo".equals(selectedType)) {
+                        modeloCocheComboBox.removeAllItems();
+                        for (String option : turismosOptions) {
+                            modeloCocheComboBox.addItem(option);
+                        }
+                    } else if ("Furgoneta".equals(selectedType)) {
+                        modeloCocheComboBox.removeAllItems();
+                        for (String option : furgonetasOptions) {
+                            modeloCocheComboBox.addItem(option);
+                        }
+                    }
+                }
+            }
+        });
 
-        // Precio por día (using spinner)
-        addLabelAndSpinner(vistaCoche, gbc, "Precio por día:", 0, 2);
-
-        // Precio por semana (using spinner)
-        addLabelAndSpinner(vistaCoche, gbc, "Precio por semana:", 0, 3);
-
-        // Kilómetros incluidos en el precio (using spinner)
-        addLabelAndSpinner(vistaCoche, gbc, "Kilómetros incluidos:", 0, 4);
-
-        // Precio por kilómetro adicional (using spinner)
-        addLabelAndSpinner(vistaCoche, gbc, "Precio por kilómetro adicional:", 0, 5);
-
-        // Estado del coche (using text area)
-        addLabelAndTextField(vistaCoche, gbc, "Estado del coche:", 0, 6);
+        // Other fields for car details
+        precioDiaSpinner = addLabelAndSpinner(vistaCoche, gbc, "Precio por día:", 0, 2);
+        precioSemanaSpinner = addLabelAndSpinner(vistaCoche, gbc, "Precio por semana:", 0, 3);
+        kilometrosPrecioSpinner = addLabelAndSpinner(vistaCoche, gbc, "Kilómetros incluidos:", 0, 4);
+        precioKilometroSpinner = addLabelAndSpinner(vistaCoche, gbc, "Precio por kilómetro adicional:", 0, 5);
+        desperfectosTextField = addLabelAndTextField(vistaCoche, gbc, "Estado del coche:", 0, 6);
 
         int bottomMargin = 70; // Adjust this value to match the height of your buttons
         int topMargin = 20;
@@ -171,29 +195,72 @@ public class Vista extends javax.swing.JFrame {
     
     private void initalizeVistaSeguro() {
         vistaSeguro = new JPanel();
-        vistaSeguro.setBackground(Color.YELLOW); // Adding background color for visual distinction
         contenedorVistas.add(vistaSeguro, 3); // Add vistaSeguro at layer 4
         vistaSeguro.setBounds(0, 0, 700, 500); // Set bounds as needed
+
+        vistaSeguro.setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.fill = GridBagConstraints.BOTH; // Fill horizontally
+        gbc.anchor = GridBagConstraints.WEST; // Align components to the left
+        gbc.insets = new Insets(10, 10, 10, 10); // Add padding around components
+
+        ButtonGroup seguroGroup = new ButtonGroup();
+
+        addLabelAndRadioButton(vistaSeguro, gbc, "Tipo de seguro:", 0, 0, "Todo riesgo", seguroGroup);
+        addLabelAndRadioButton(vistaSeguro, gbc, "", 0, 1, "Con franquicia", seguroGroup);
+
         vistaSeguro.setVisible(false); // Initially hide vistaSeguro
     }
     
     private void initializeVistaCobro() {
         vistaCobro = new JPanel();
-        vistaCobro.setBackground(Color.ORANGE); // Adding background color for visual distinction
         contenedorVistas.add(vistaCobro, 4); // Add vistaCobro at layer 5
         vistaCobro.setBounds(0, 0, 700, 500); // Set bounds as needed
+
+        vistaCobro.setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.fill = GridBagConstraints.BOTH; // Fill horizontally
+        gbc.anchor = GridBagConstraints.WEST; // Align components to the left
+        gbc.insets = new Insets(10, 10, 10, 10); // Add padding around components
+
+        ButtonGroup modoCobroGroup = new ButtonGroup();
+
+        addLabelAndRadioButton(vistaCobro, gbc, "Modo de cobro:", 0, 0, "Tarjeta", modoCobroGroup);
+        addLabelAndRadioButton(vistaCobro, gbc, "", 0, 1, "Paypal", modoCobroGroup);
+        addLabelAndRadioButton(vistaCobro, gbc, "", 0, 2, "Otro", modoCobroGroup);
+
+        addLabelAndTextField(vistaCobro, gbc, "Datos de tarjeta/Paypal/otro:", 0, 3);
+
         vistaCobro.setVisible(false); // Initially hide vistaCobro
     }
     
     private void initializeVistaResumen() {
         vistaResumen = new JPanel();
-        vistaResumen.setBackground(Color.CYAN); // Adding background color for visual distinction
         contenedorVistas.add(vistaResumen, 5); // Add vistaResumen at layer 6
         vistaResumen.setBounds(0, 0, 700, 500); // Set bounds as needed
+
+        vistaResumen.setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.fill = GridBagConstraints.BOTH; // Fill horizontally
+        gbc.anchor = GridBagConstraints.WEST; // Align components to the left
+        gbc.insets = new Insets(10, 10, 10, 10); // Add padding around components
+
+//        addLabelAndInfo(vistaResumen, gbc, "Usuario:", 0, 0, usuario.toString());
+//        addLabelAndInfo(vistaResumen, gbc, "Coche:", 0, 1, coche.toString());
+//        addLabelAndInfo(vistaResumen, gbc, "Modo de Cobro:", 0, 2, modoCobro);
+//        addLabelAndInfo(vistaResumen, gbc, "Datos de Cobro:", 0, 3, datosCobro);
+//        addLabelAndInfo(vistaResumen, gbc, "Tipo de Seguro:", 0, 4, tipoSeguro);
+
         vistaResumen.setVisible(false); // Initially hide vistaResumen
     }
     
-    private void addLabelAndTextField(JPanel panel, GridBagConstraints gbc, String labelText, int gridx, int gridy) {
+    private JTextField addLabelAndTextField(JPanel panel, GridBagConstraints gbc, String labelText, int gridx, int gridy) {
         JLabel label = new JLabel(labelText);
         gbc.gridx = gridx;
         gbc.gridy = gridy;
@@ -209,9 +276,11 @@ public class Vista extends javax.swing.JFrame {
         gbc.fill = GridBagConstraints.HORIZONTAL; // Fill horizontally
         gbc.anchor = GridBagConstraints.WEST; // Align components to the left
         panel.add(textField, gbc);
+
+        return textField; // Return the created text field
     }
     
-    private void addLabelAndComboBox(JPanel panel, GridBagConstraints gbc, String labelText, int gridx, int gridy, String[] options) {
+    private JComboBox<String> addLabelAndComboBox(JPanel panel, GridBagConstraints gbc, String labelText, int gridx, int gridy, String[] options) {
         JLabel label = new JLabel(labelText);
         gbc.gridx = gridx;
         gbc.gridy = gridy;
@@ -225,9 +294,11 @@ public class Vista extends javax.swing.JFrame {
         gbc.fill = GridBagConstraints.BOTH; // Fill horizontally
         gbc.anchor = GridBagConstraints.WEST; // Align components to the left
         panel.add(comboBox, gbc);
+
+        return comboBox;
     }
-    
-    private void addLabelAndSpinner(JPanel panel, GridBagConstraints gbc, String labelText, int gridx, int gridy) {
+
+    private JSpinner addLabelAndSpinner(JPanel panel, GridBagConstraints gbc, String labelText, int gridx, int gridy) {
         JLabel label = new JLabel(labelText);
         gbc.gridx = gridx;
         gbc.gridy = gridy;
@@ -244,6 +315,49 @@ public class Vista extends javax.swing.JFrame {
         gbc.fill = GridBagConstraints.HORIZONTAL; // Fill horizontally
         gbc.anchor = GridBagConstraints.WEST; // Align components to the left
         panel.add(spinner, gbc);
+
+        return spinner;
+    }
+
+    private JRadioButton addLabelAndRadioButton(JPanel panel, GridBagConstraints gbc, String labelText, int gridx, int gridy, String radioText, ButtonGroup group) {
+        JLabel label = new JLabel(labelText);
+        gbc.gridx = gridx;
+        gbc.gridy = gridy;
+        gbc.anchor = GridBagConstraints.WEST; // Align components to the left
+        gbc.insets = new Insets(10, 10, 10, 10); // Add padding around components
+        panel.add(label, gbc);
+
+        JRadioButton radioButton = new JRadioButton(radioText);
+        gbc.gridx = gridx + 1;
+        gbc.weightx = 1.0; // Make the radio button expand horizontally
+        gbc.fill = GridBagConstraints.HORIZONTAL; // Fill horizontally
+        gbc.anchor = GridBagConstraints.WEST; // Align components to the left
+        panel.add(radioButton, gbc);
+
+        group.add(radioButton); // Add the radio button to the button group
+
+        return radioButton;
+    }
+
+    private JTextArea addLabelAndInfo(JPanel panel, GridBagConstraints gbc, String labelText, int gridx, int gridy, String info) {
+        JLabel label = new JLabel(labelText);
+        gbc.gridx = gridx;
+        gbc.gridy = gridy;
+        gbc.anchor = GridBagConstraints.WEST; // Align components to the left
+        gbc.insets = new Insets(10, 10, 10, 10); // Add padding around components
+        panel.add(label, gbc);
+
+        JTextArea textArea = new JTextArea(5, 20);
+        textArea.setText(info);
+        textArea.setEditable(false);
+        JScrollPane scrollPane = new JScrollPane(textArea);
+        gbc.gridx = gridx + 1;
+        gbc.weightx = 1.0; // Make the text area expand horizontally
+        gbc.fill = GridBagConstraints.BOTH; // Fill horizontally
+        gbc.anchor = GridBagConstraints.WEST; // Align components to the left
+        panel.add(scrollPane, gbc);
+
+        return textArea;
     }
     
     private void initializeButtons() {
@@ -317,7 +431,22 @@ public class Vista extends javax.swing.JFrame {
 
         botonAdelante.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                goForward(); // Switch to vistaCoche (index 3)
+                switch (vistaActual) {
+                    case 1: // VistaUsuario
+                        saveUsuarioData();
+                        break;
+                    case 2: // VistaCoche
+                        saveCocheData();
+                        break;
+                    case 3: // VistaSeguro
+                        saveSeguroData();
+                        break;
+                    case 4: // VistaCobro
+                        saveCobroData();
+                        break;
+                    // Add cases for other vistas as needed
+                }
+                goForward();
             }
         });
         
@@ -333,6 +462,38 @@ public class Vista extends javax.swing.JFrame {
             }
         });
     }
+    
+    private void saveUsuarioData() {
+        usuario.setNombre(nombreTextField.getText());
+        usuario.setApellidos(apellidosTextField.getText());
+        usuario.setDireccion(direccionTextField.getText());
+        usuario.setEdad(Integer.parseInt(edadTextField.getText()));
+        usuario.setTipoCarnet(tipoCarnetTextField.getText());
+        usuario.setAntiguedadCarnet(Integer.parseInt(antiguedadCarnetTextField.getText()));
+    }
+
+    private void saveCocheData() {
+        coche.setTipoCoche((String) tipoCocheComboBox.getSelectedItem());
+        coche.setModeloCoche((String) modeloCocheComboBox.getSelectedItem());
+        coche.setPrecioDia((int) precioDiaSpinner.getValue());
+        coche.setPrecioSemana((int) precioSemanaSpinner.getValue());
+        coche.setKilometrosEnPrecio((int) kilometrosPrecioSpinner.getValue());
+        coche.setPrecioPorKilometro((int) precioKilometroSpinner.getValue());
+        coche.setDesperfectos(desperfectosTextField.getText());
+    }
+
+    private void saveSeguroData() {
+//        String tipoSeguro = "Todo Riesgo"; // Default
+//        if (franquiciaRadioButton.isSelected()) {
+//            tipoSeguro = "Con Franquicia";
+//        }
+//        // Set the tipoSeguro to the corresponding variable
+    }
+
+    private void saveCobroData() {
+        // Save cobro related data, if any
+    }
+
     
     // New method to handle moving forward
     private void goForward() {        
@@ -504,6 +665,27 @@ public class Vista extends javax.swing.JFrame {
     private javax.swing.JButton botonGuardar;
     private javax.swing.JButton botonEliminar;
     private javax.swing.JButton botonModificar;
+    
+    private JTextField nombreTextField;
+    private JTextField apellidosTextField;
+    private JTextField direccionTextField;
+    private JTextField edadTextField;
+    private JTextField tipoCarnetTextField;
+    private JTextField antiguedadCarnetTextField;
+    
+    private JComboBox<String> tipoCocheComboBox;
+    private JComboBox<String> modeloCocheComboBox;
+    private JSpinner precioDiaSpinner;
+    private JSpinner precioSemanaSpinner;
+    private JSpinner kilometrosPrecioSpinner;
+    private JSpinner precioKilometroSpinner;
+    private JTextField desperfectosTextField;
+    
+    private Persona usuario;
+    private Coche coche;
+    private String modoCobro;
+    private String datosCobro;
+    private String tipoSeguro;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLayeredPane contenedorVistas;
     private javax.swing.JPanel panelLateral;
