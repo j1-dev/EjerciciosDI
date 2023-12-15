@@ -47,9 +47,7 @@ import javax.swing.border.Border;
  * @author  j1
  * @TODO    Add validations
  * @TODO    Expand Pago section to get all of the card info and also the email for contact
- * @TODO    Improve the vistaCoche with a scroll panel with images of the car
- * @TODO    vistaCoche should have a radio group for selecting turismo / furgoneta 
- *          carga / furgoneta pasajeros and another radio group to select small / medium / big
+ * @TODO    Use a panel to display dynamically the available cards depending on if turismos/furgoneta pasajeros/furgoneta cargas and pequeño/mediano/grande is selected
  * @TODO    Include license plate for each car
  * @TODO    Add styling
  * @TODO    Add modificar/eliminar buttons to the card
@@ -160,10 +158,11 @@ public class Vista extends javax.swing.JFrame {
         // Create and add labels and text fields
         nombreTextField = addLabelAndTextField(vistaUsuario, gbc, "Nombre:", 0, 1);
         apellidosTextField = addLabelAndTextField(vistaUsuario, gbc, "Apellidos:", 0, 2);
-        direccionTextField = addLabelAndTextField(vistaUsuario, gbc, "Dirección:", 0, 3);
-        edadTextField = addLabelAndTextField(vistaUsuario, gbc, "Edad:", 0, 4);
-        tipoCarnetTextField = addLabelAndTextField(vistaUsuario, gbc, "Tipo Carnet:", 0, 5);
-        antiguedadCarnetTextField = addLabelAndTextField(vistaUsuario, gbc, "Antigüedad Carnet:", 0, 6);
+        dniTextField = addLabelAndTextField(vistaUsuario,gbc, "DNI: ",0,3);
+        direccionTextField = addLabelAndTextField(vistaUsuario, gbc, "Dirección:", 0, 4);
+        edadTextField = addLabelAndTextField(vistaUsuario, gbc, "Edad:", 0, 5);
+        tipoCarnetTextField = addLabelAndTextField(vistaUsuario, gbc, "Tipo Carnet:", 0, 6);
+        antiguedadCarnetTextField = addLabelAndTextField(vistaUsuario, gbc, "Antigüedad Carnet:", 0, 7);
 
         int bottomMargin = 70; // Adjust this value to match the height of your buttons
         int topMargin = 20;
@@ -808,6 +807,7 @@ public class Vista extends javax.swing.JFrame {
     
     private JTextField nombreTextField;
     private JTextField apellidosTextField;
+    private JTextField dniTextField;
     private JTextField direccionTextField;
     private JTextField edadTextField;
     private JTextField tipoCarnetTextField;

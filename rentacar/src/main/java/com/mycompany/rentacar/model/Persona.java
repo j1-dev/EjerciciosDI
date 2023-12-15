@@ -11,6 +11,7 @@ package com.mycompany.rentacar.model;
 public class Persona {
     private String nombre;
     private String apellidos;
+    private String dni;
     private String direccion;
     private int edad;
     private String tipoCarnet;
@@ -18,9 +19,10 @@ public class Persona {
     
     public Persona() {}
 
-    public Persona(String nombre, String apellidos, String direccion, int edad, String tipoCarnet, int antiguedadCarnet) {
+    public Persona(String nombre, String apellidos, String dni, String direccion, int edad, String tipoCarnet, int antiguedadCarnet) {
         this.nombre = nombre;
         this.apellidos = apellidos;
+        this.dni = dni;
         this.direccion = direccion;
         this.edad = edad;
         this.tipoCarnet = tipoCarnet;
@@ -41,6 +43,14 @@ public class Persona {
 
     public void setApellidos(String apellidos) {
         this.apellidos = apellidos;
+    }
+
+    public String getDni() {
+        return dni;
+    }
+
+    public void setDni(String dni) {
+        this.dni = dni;
     }
 
     public String getDireccion() {
