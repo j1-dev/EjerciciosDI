@@ -62,6 +62,11 @@ public class Reserva {
     public void setTipoSeguro(String tipoSeguro) {
         this.tipoSeguro = tipoSeguro;
     }
+
+    @Override
+    public String toString() {
+        return "Reserva{" + "usuario=" + usuario.toString() + ", coche=" + coche.toString() + ", modoCobro=" + modoCobro + ", datosCobro=" + datosCobro + ", tipoSeguro=" + tipoSeguro + '}';
+    }
     
     
 }

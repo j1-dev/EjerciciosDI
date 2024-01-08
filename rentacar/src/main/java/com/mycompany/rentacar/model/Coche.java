@@ -28,6 +28,16 @@ public class Coche {
         this.precioPorKilometro = precioPorKilometro;
         this.desperfectos = desperfectos;
     }
+    
+    public Coche(Coche c) {
+        this.tipoCoche = c.tipoCoche;
+        this.modeloCoche = c.modeloCoche;
+        this.precioDia = c.precioDia;
+        this.precioSemana = c.precioSemana;
+        this.kilometrosEnPrecio = c.kilometrosEnPrecio;
+        this.precioPorKilometro = c.precioPorKilometro;
+        this.desperfectos = c.desperfectos;
+    }
 
     public String getTipoCoche() {
         return tipoCoche;
@@ -83,6 +93,11 @@ public class Coche {
 
     public void setDesperfectos(String desperfectos) {
         this.desperfectos = desperfectos;
+    }
+
+    @Override
+    public String toString() {
+        return "Coche{" + "tipoCoche=" + tipoCoche + ", modeloCoche=" + modeloCoche + ", precioDia=" + precioDia + ", precioSemana=" + precioSemana + ", kilometrosEnPrecio=" + kilometrosEnPrecio + ", precioPorKilometro=" + precioPorKilometro + ", desperfectos=" + desperfectos + '}';
     }
     
     

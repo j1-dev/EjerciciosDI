@@ -28,6 +28,16 @@ public class Persona {
         this.tipoCarnet = tipoCarnet;
         this.antiguedadCarnet = antiguedadCarnet;
     }
+    
+    public Persona(Persona p) {
+        this.nombre = p.nombre;
+        this.apellidos = p.apellidos;
+        this.dni = p.dni;
+        this.direccion = p.direccion;
+        this.edad = p.edad;
+        this.tipoCarnet = p.tipoCarnet;
+        this.antiguedadCarnet = p.antiguedadCarnet;
+    }
 
     public String getNombre() {
         return nombre;
@@ -83,6 +93,11 @@ public class Persona {
 
     public void setAntiguedadCarnet(int antiguedadCarnet) {
         this.antiguedadCarnet = antiguedadCarnet;
+    }
+
+    @Override
+    public String toString() {
+        return "Persona{" + "nombre=" + nombre + ", apellidos=" + apellidos + ", dni=" + dni + ", direccion=" + direccion + ", edad=" + edad + ", tipoCarnet=" + tipoCarnet + ", antiguedadCarnet=" + antiguedadCarnet + '}';
     }
     
     

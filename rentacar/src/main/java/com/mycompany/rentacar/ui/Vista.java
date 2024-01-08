@@ -483,6 +483,7 @@ public class Vista extends javax.swing.JFrame {
         cardsContainer.removeAll(); // Clear existing cards
 
         for (Reserva reserva : reservas) {
+            System.out.println(reserva.toString());
             ListaItem card = new ListaItem();
             card.setReservaInfo(reserva); // Set Reserva information to the card
             cardsContainer.add(card);
@@ -599,9 +600,12 @@ public class Vista extends javax.swing.JFrame {
         }
     }
     
-    private void guardar() {       
-        Reserva nuevaReserva = new Reserva(usuario, coche, modoCobro, datosCobro, tipoSeguro);
+    private void guardar() {
+        Persona newUsuario = new Persona(usuario);
+        Coche newCoche = new Coche(coche);
+        Reserva nuevaReserva = new Reserva(newUsuario, newCoche, modoCobro, datosCobro, tipoSeguro);
         reservas.add(nuevaReserva);
+        System.out.println(reservas.toString());
         createReservationCards();
         resetFields();
     }
