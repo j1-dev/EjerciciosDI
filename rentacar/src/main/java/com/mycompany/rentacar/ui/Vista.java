@@ -49,10 +49,8 @@ import javax.swing.border.Border;
  * @author  j1
  * @TODO    Add validations
  * @TODO    Expand Pago section to get all of the card info and also the email for contact
- * @TODO    Use a panel to display dynamically the available cards depending on if turismos/furgoneta pasajeros/furgoneta cargas and pequeño/mediano/grande is selected
- * @TODO    Include license plate for each car
- * @TODO    Add styling
- * @TODO    Add modificar/eliminar buttons to the card
+ * @TODO    Fix modificar function
+ * @TODO    Fix fillFieldsFromReserva function to fill all of the fields properly
  */
 public class Vista extends javax.swing.JFrame {
 
@@ -692,6 +690,7 @@ public class Vista extends javax.swing.JFrame {
     private void addButtonListeners() {
         botonNuevo.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                isModifying = false;
                 vistaActual = 1;
                 switchToPanelByIndex(vistaActual); // Switch to vistaUsuario (index 1)
                 handleUnselectedItem();
@@ -818,13 +817,24 @@ public class Vista extends javax.swing.JFrame {
             resetFields(); 
         } else {
             isModifying = false;
+            Persona newUsuario = new Persona(usuario);
+            selectedReserva.setUsuario(newUsuario);
+            Coche newCoche = new Coche(coche);
+            selectedReserva.setCoche(newCoche);
+            selectedReserva.setModoCobro(modoCobro);
+            selectedReserva.setDatosCobro(datosCobro);
+            selectedReserva.setTipoSeguro(tipoSeguro);
+            createReservationCards();
+            resetFields(); 
         }
         
     }
     
     private void modificar() {
         isModifying = true;
-        
+        populateFieldsFromReserva(selectedReserva);
+        vistaActual = 1;
+        switchToPanelByIndex(vistaActual);
     }
     
     private void eliminar() {
@@ -941,6 +951,22 @@ public class Vista extends javax.swing.JFrame {
             botonAtras.setVisible(true);
             botonGuardar.setVisible(false);
         }
+    }
+    
+    public void populateFieldsFromReserva(Reserva selectedReserva) {
+        Persona usuario = selectedReserva.getUsuario();
+        Coche coche = selectedReserva.getCoche();
+
+        nombreTextField.setText(usuario.getNombre());
+        apellidosTextField.setText(usuario.getApellidos());
+        dniTextField.setText(usuario.getDni());
+        direccionTextField.setText(usuario.getDireccion());
+        edadTextField.setText(String.valueOf(usuario.getEdad()));
+        tipoCarnetTextField.setText(usuario.getTipoCarnet());
+        antiguedadCarnetTextField.setText(Integer.toString(usuario.getAntiguedadCarnet()));
+        datosCobroTextField.setText(datosCobro);
+
+        tipoCocheComboBox.setSelectedItem(coche.getTipoCoche());
     }
 
     /**
