@@ -12,4 +12,5 @@ import com.mycompany.rentacar.ui.CocheCard;
  */
 public interface SelectionListener {
     void onCardSelected(Coche selected);
+    void onCardUnselected();
 }

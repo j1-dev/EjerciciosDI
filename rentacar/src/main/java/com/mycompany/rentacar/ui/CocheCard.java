@@ -118,6 +118,9 @@ public class CocheCard extends javax.swing.JPanel {
     public void deselectCard() {
         isSelected = false;
         setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY, 1));
+        if (selectionListener != null) {
+            selectionListener.onCardUnselected();
+        }
     }
     
     private void displayCarImage(String imagePath) {

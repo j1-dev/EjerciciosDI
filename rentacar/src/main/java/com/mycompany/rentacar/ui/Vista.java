@@ -259,6 +259,7 @@ public class Vista extends javax.swing.JFrame {
 
         // Add an item listener to the tipoCocheComboBox
         tipoCocheComboBox.addItemListener(new ItemListener() {
+            @Override
             public void itemStateChanged(ItemEvent e) {
                 if (e.getStateChange() == ItemEvent.SELECTED) {
                     populateCards(cardsPanel);
@@ -351,7 +352,16 @@ public class Vista extends javax.swing.JFrame {
                     public void onCardSelected(Coche c) {
                         coche = c;
                         selectedCard = card;
-                        handleSelectedCoche(c);
+                        botonAdelante.setEnabled(true);
+                        System.out.println("a");
+                    }
+                    @Override
+                    public void onCardUnselected() {
+                        coche = null;
+                        selectedCard = null;
+                        botonAdelante.setEnabled(false);
+                        System.out.println("b");
+
                     }
                 });
             }
@@ -361,9 +371,6 @@ public class Vista extends javax.swing.JFrame {
         cardsPanel.repaint();
     }
     
-    private void handleSelectedCoche(Coche c) {
-        coche = c;
-    }
     
     private void initalizeVistaSeguro() {
         vistaSeguro = new JPanel();
