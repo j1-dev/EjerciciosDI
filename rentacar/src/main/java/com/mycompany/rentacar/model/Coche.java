@@ -11,31 +11,37 @@ package com.mycompany.rentacar.model;
 public class Coche {
     private String tipoCoche;
     private String modeloCoche;
+    private String matricula;
     private int precioDia;
     private int precioSemana;
     private int kilometrosEnPrecio;
     private int precioPorKilometro;
+    private String imgPath;
     private String desperfectos;
     
     public Coche() {}
 
-    public Coche(String tipoCoche, String modeloCoche, int precioDia, int precioSemana, int kilometrosEnPrecio, int precioPorKilometro, String desperfectos) {
+    public Coche(String tipoCoche, String modeloCoche, String matricula, int precioDia, int precioSemana, int kilometrosEnPrecio, int precioPorKilometro, String imgPath, String desperfectos) {
         this.tipoCoche = tipoCoche;
         this.modeloCoche = modeloCoche;
+        this.matricula = matricula;
         this.precioDia = precioDia;
         this.precioSemana = precioSemana;
         this.kilometrosEnPrecio = kilometrosEnPrecio;
         this.precioPorKilometro = precioPorKilometro;
+        this.imgPath = imgPath;
         this.desperfectos = desperfectos;
     }
     
     public Coche(Coche c) {
         this.tipoCoche = c.tipoCoche;
         this.modeloCoche = c.modeloCoche;
+        this.matricula = c.matricula;
         this.precioDia = c.precioDia;
         this.precioSemana = c.precioSemana;
         this.kilometrosEnPrecio = c.kilometrosEnPrecio;
         this.precioPorKilometro = c.precioPorKilometro;
+        this.imgPath = c.imgPath;
         this.desperfectos = c.desperfectos;
     }
 
@@ -53,6 +59,14 @@ public class Coche {
 
     public void setModeloCoche(String modeloCoche) {
         this.modeloCoche = modeloCoche;
+    }
+
+    public String getMatricula() {
+        return matricula;
+    }
+
+    public void setMatricula(String matricula) {
+        this.matricula = matricula;
     }
 
     public int getPrecioDia() {
@@ -85,6 +99,14 @@ public class Coche {
 
     public void setPrecioPorKilometro(int precioPorKilometro) {
         this.precioPorKilometro = precioPorKilometro;
+    }
+
+    public String getImgPath() {
+        return imgPath;
+    }
+
+    public void setImgPath(String imgPath) {
+        this.imgPath = imgPath;
     }
 
     public String getDesperfectos() {

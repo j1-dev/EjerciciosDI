@@ -128,12 +128,12 @@ public class Vista extends javax.swing.JFrame {
         JScrollPane scrollPane = new JScrollPane(cardsContainer);
         scrollPane.setPreferredSize(new Dimension(700, 400)); // Adjust dimensions as needed
 
-        vistaPrincipal.add(scrollPane);
-
         JLabel titleLabel = new JLabel("Reservas");
         titleLabel.setFont(new Font("Arial", Font.BOLD, 26));
         vistaPrincipal.add(titleLabel);
-
+        
+        vistaPrincipal.add(scrollPane);
+        
         // Create cards initially
         createReservationCards();
     }
@@ -175,7 +175,7 @@ public class Vista extends javax.swing.JFrame {
         vistaCoche = new JPanel();
         contenedorVistas.add(vistaCoche, 2); // Add vistaCoche at layer 3
         vistaCoche.setBounds(0, 0, 700, 500); // Set bounds as needed
-        
+
         JLabel titleLabel = new JLabel("Datos del Coche");
         titleLabel.setFont(new Font("Arial", Font.BOLD, 26));
         vistaCoche.add(titleLabel);
@@ -189,48 +189,118 @@ public class Vista extends javax.swing.JFrame {
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
-        gbc.weighty = 1.0; // Allow components to fill vertically
+        gbc.weighty = 0; // Reduce vertical space taken by tipoCocheComboBox
         gbc.anchor = GridBagConstraints.WEST; // Align components to the left
         gbc.insets = new Insets(10, 10, 10, 10); // Add padding around components
 
         // Tipo de coche (using combo box)
-        tipoCocheComboBox = addLabelAndComboBox(vistaCoche, gbc, "Tipo de coche:", 0, 1, new String[]{"Turismo", "Furgoneta"});
-        modeloCocheComboBox = addLabelAndComboBox(vistaCoche, gbc, "Coche concreto:", 0, 2, turismosOptions);
+        tipoCocheComboBox = addLabelAndComboBox(vistaCoche, gbc, "Tipo de coche:", 0, 1, new String[]{"Pequeño", "Mediano", "Monovolumen", "Furgoneta de carga", "Furgoneta de pasajeros pequeña", "Furgoneta de pasajeros mediana", "Furgoneta de pasajeros grande"});
+        gbc.gridy++; // Increment the gridy
+
+        // Create a new GridBagConstraints for the scroll pane
+        GridBagConstraints scrollPaneConstraints = new GridBagConstraints();
+        scrollPaneConstraints.gridx = 0;
+        scrollPaneConstraints.gridy = gbc.gridy;
+        scrollPaneConstraints.weightx = 1.0; // Allow scroll pane to fill horizontally
+        scrollPaneConstraints.weighty = 1.0; // Allow scroll pane to fill vertically
+        scrollPaneConstraints.fill = GridBagConstraints.BOTH; // Fill both horizontal and vertical
+        scrollPaneConstraints.gridwidth = GridBagConstraints.REMAINDER; // Take the whole row
+
+        // Replace modeloCocheComboBox with scrollable panel for displaying CocheCards
+        JScrollPane scrollPane = new JScrollPane();
+        vistaCoche.add(scrollPane, scrollPaneConstraints);
+
+        // Create a panel inside the scroll pane to hold the CocheCards
+        JPanel cardsPanel = new JPanel(new GridLayout(0, 2, 10, 10)); // 2 cards per row
+        scrollPane.setViewportView(cardsPanel);
 
         // Add an item listener to the tipoCocheComboBox
         tipoCocheComboBox.addItemListener(new ItemListener() {
             public void itemStateChanged(ItemEvent e) {
                 if (e.getStateChange() == ItemEvent.SELECTED) {
-                    String selectedType = (String) tipoCocheComboBox.getSelectedItem();
-                    if ("Turismo".equals(selectedType)) {
-                        modeloCocheComboBox.removeAllItems();
-                        for (String option : turismosOptions) {
-                            modeloCocheComboBox.addItem(option);
-                        }
-                    } else if ("Furgoneta".equals(selectedType)) {
-                        modeloCocheComboBox.removeAllItems();
-                        for (String option : furgonetasOptions) {
-                            modeloCocheComboBox.addItem(option);
-                        }
-                    }
+                    populateCards(cardsPanel);
                 }
             }
         });
-
-        // Other fields for car details
-        precioDiaSpinner = addLabelAndSpinner(vistaCoche, gbc, "Precio por día:", 0, 3);
-        precioSemanaSpinner = addLabelAndSpinner(vistaCoche, gbc, "Precio por semana:", 0, 4);
-        kilometrosPrecioSpinner = addLabelAndSpinner(vistaCoche, gbc, "Kilómetros incluidos:", 0, 5);
-        precioKilometroSpinner = addLabelAndSpinner(vistaCoche, gbc, "Precio por kilómetro adicional:", 0, 6);
-        desperfectosTextField = addLabelAndTextField(vistaCoche, gbc, "Estado del coche:", 0, 7);
 
         int bottomMargin = 70; // Adjust this value to match the height of your buttons
         int topMargin = 20;
         vistaCoche.setBorder(BorderFactory.createEmptyBorder(topMargin, 0, bottomMargin, 0));
 
+        // Populate the cards panel initially
+        populateCards(cardsPanel);
+
         vistaCoche.setVisible(false); // Initially hide vistaCoche
     }
-    
+
+    private void populateCards(JPanel cardsPanel) {
+        String selectedType = (String) tipoCocheComboBox.getSelectedItem();
+        cardsPanel.removeAll(); // Clear previous cards
+
+        Coche[] options = null;
+
+        switch (selectedType) {
+            case "Pequeño":
+                options = new Coche[]{
+                    new Coche("Pequeño", "Volkswagen Up", "UP123", 30, 200, 300, 6, "ruta/a/up_imagen.jpg", "Tiene desgaste leve"),
+                    new Coche("Pequeño", "Seat Mii", "MII456", 35, 220, 350, 7, "ruta/a/mii_imagen.jpg", "En buenas condiciones"),
+                    new Coche("Pequeño", "Renault Twingo", "TWINGO789", 32, 210, 320, 6, "ruta/a/twingo_imagen.jpg", "Sin desperfectos"),
+                };
+                break;
+            case "Mediano":
+                options = new Coche[]{
+                    new Coche("Mediano", "Volkswagen Golf", "GOLF123", 40, 250, 400, 8, "ruta/a/golf_imagen.jpg", "Algunos rasguños"),
+                    new Coche("Mediano", "Seat León", "LEON456", 45, 270, 420, 9, "ruta/a/leon_imagen.jpg", "En condiciones óptimas"),
+                    new Coche("Mediano", "Ford Focus", "FOCUS789", 42, 260, 420, 8, "ruta/a/focus_imagen.jpg", "Desgaste leve"),
+                };
+                break;
+            case "Monovolumen":
+                options = new Coche[]{
+                    new Coche("Monovolumen", "Volkswagen Touran", "TOURAN123", 50, 300, 500, 10, "ruta/a/touran_imagen.jpg", "Sin desperfectos"),
+                    new Coche("Monovolumen", "Seat Alhambra", "ALHAMBRA456", 55, 320, 550, 11, "ruta/a/alhambra_imagen.jpg", "Algunos arañazos"),
+                    new Coche("Monovolumen", "Citroën C4 Picasso", "C4PICASSO789", 52, 310, 520, 10, "ruta/a/c4picasso_imagen.jpg", "En buenas condiciones"),
+                };
+                break;
+            case "Furgoneta de carga":
+                options = new Coche[]{
+                    new Coche("Furgoneta de carga", "Volkswagen Caddy", "CADDY123", 60, 350, 600, 12, "ruta/a/caddy_imagen.jpg", "Desgaste leve"),
+                    new Coche("Furgoneta de carga", "Seat Altea XL", "ALTEAXL456", 65, 380, 650, 13, "ruta/a/alteaxl_imagen.jpg", "Algunos arañazos"),
+                    new Coche("Furgoneta de carga", "Renault Kangoo", "KANGOO789", 62, 360, 610, 12, "ruta/a/kangoo_imagen.jpg", "Sin desperfectos"),
+                };
+                break;
+            case "Furgoneta de pasajeros pequeña":
+                options = new Coche[]{
+                    new Coche("Furgoneta de pasajeros pequeña", "Volkswagen Caravelle", "CARAVELLE123", 70, 400, 700, 14, "ruta/a/caravelle_imagen.jpg", "Algunos rasguños"),
+                    new Coche("Furgoneta de pasajeros pequeña", "Seat Ateca", "ATECA456", 75, 430, 750, 15, "ruta/a/ateca_imagen.jpg", "Sin desperfectos"),
+                    new Coche("Furgoneta de pasajeros pequeña", "Ford Tourneo Connect", "TOURNEO789", 72, 410, 720, 14, "ruta/a/tourneo_imagen.jpg", "En buenas condiciones"),
+                };
+                break;
+            case "Furgoneta de pasajeros mediana":
+                options = new Coche[]{
+                    new Coche("Furgoneta de pasajeros mediana", "Volkswagen Transporter Shuttle", "SHUTTLE123", 90, 500, 850, 18, "ruta/a/shuttle_imagen.jpg", "En buenas condiciones"),
+                    new Coche("Furgoneta de pasajeros mediana", "Seat Tarraco", "TARRACO456", 95, 530, 900, 19, "ruta/a/tarraco_imagen.jpg", "Algunos rasguños"),
+                    new Coche("Furgoneta de pasajeros mediana", "Renault Trafic Passenger", "TRAFIC789", 92, 510, 870, 18, "ruta/a/trafic_imagen.jpg", "Desgaste leve"),
+                };
+                break;
+            case "Furgoneta de pasajeros grande":
+                options = new Coche[]{
+                    new Coche("Furgoneta de pasajeros grande", "Volkswagen Crafter", "CRAFTER123", 80, 450, 750, 15, "ruta/a/crafter_imagen.jpg", "Con algunos daños"),
+                    new Coche("Furgoneta de pasajeros grande", "Seat Alhambra Van", "ALHAMBRAVAN456", 85, 480, 800, 16, "ruta/a/alhambravan_imagen.jpg", "Desgaste leve"),
+                    new Coche("Furgoneta de pasajeros grande", "Renault Master Combi", "MASTER789", 82, 460, 780, 15, "ruta/a/master_imagen.jpg", "En buenas condiciones"),
+                };
+                break;
+            // Agregar casos para el resto de categorías...
+        }
+
+        if (options != null) {
+            for (Coche coche : options) {
+                CocheCard card = new CocheCard();
+                card.setCocheInfo(coche);
+                cardsPanel.add(card);
+            }
+        }
+    }
+
     
     private void initalizeVistaSeguro() {
         vistaSeguro = new JPanel();
