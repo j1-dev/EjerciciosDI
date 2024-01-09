@@ -4,8 +4,18 @@
  */
 package com.mycompany.rentacar.ui;
 
+import com.mycompany.rentacar.model.Coche;
 import com.mycompany.rentacar.model.Reserva;
+import com.mycompany.rentacar.model.ReservasListener;
+import com.mycompany.rentacar.model.SelectionListener;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import javax.swing.BorderFactory;
 import javax.swing.GroupLayout;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
@@ -22,6 +32,17 @@ public class ListaItem extends javax.swing.JPanel {
     public ListaItem() {
         initComponents();
         setupComponents();
+        
+        addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (!isSelected) {
+                    selectCard();
+                } else {
+                    deselectCard();
+                }
+            }
+        });
     }
     
     private void setupComponents() {
@@ -29,12 +50,13 @@ public class ListaItem extends javax.swing.JPanel {
         carLabel = new JLabel("Coche:");
         paymentModeLabel = new JLabel("Modo de Pago:");
 
-        nameTextField = new JTextField();
-        carTextField = new JTextField();
-        paymentModeTextField = new JTextField();
+        nameTextLabel = new JLabel();
+        carTextLabel = new JLabel();
+        paymentModeTextLabel = new JLabel();
 
         GroupLayout layout = new GroupLayout(this);
         this.setLayout(layout);
+        setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY, 1));
         layout.setHorizontalGroup(
             layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
@@ -45,27 +67,26 @@ public class ListaItem extends javax.swing.JPanel {
                         .addComponent(paymentModeLabel))
                     .addGap(18, 18, 18)
                     .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                        .addComponent(nameTextField, GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE)
-                        .addComponent(carTextField, GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE)
-                        .addComponent(paymentModeTextField, GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE))
+                        .addComponent(nameTextLabel, GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE)
+                        .addComponent(carTextLabel, GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE)
+                        .addComponent(paymentModeTextLabel, GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE))
                     .addContainerGap())
         );
         layout.setVerticalGroup(
-            layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addContainerGap()
-                    .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                        .addComponent(nameLabel)
-                        .addComponent(nameTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                    .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                        .addComponent(carLabel)
-                        .addComponent(carTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                    .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                        .addComponent(paymentModeLabel)
-                        .addComponent(paymentModeTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-                    .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                    .addComponent(nameLabel)
+                    .addComponent(nameTextLabel))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                    .addComponent(carLabel)
+                    .addComponent(carTextLabel))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                    .addComponent(paymentModeLabel)
+                    .addComponent(paymentModeTextLabel))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, 0) // Set preferred height
         );
 
         // Set font for labels
@@ -74,12 +95,58 @@ public class ListaItem extends javax.swing.JPanel {
         paymentModeLabel.setFont(new Font("Arial", Font.BOLD, 12));
     }
     
-    public void setReservaInfo(Reserva reserva) {
-        nameTextField.setText(reserva.getUsuario().getNombre());
-        carTextField.setText(reserva.getCoche().getModeloCoche());
-        paymentModeTextField.setText(reserva.getModoCobro());
+    private void selectCard() {
+        if (selectedListaItem != null && selectedListaItem != this) {
+            selectedListaItem.deselectCard(); // Deselect the previously selected item
+        }
+        isSelected = true;
+        setBorder(BorderFactory.createLineBorder(Color.decode("#F9AB55"), 2));
+        selectedListaItem = this;
+
+        // Trigger the onCardSelected method of the listener if available
+        if (selectionListener != null) {
+            selectionListener.onCardSelected(reserva);
+        }
+        // Deselect other cards
+        Container parent = getParent();
+        if (parent != null) {
+            for (Component component : parent.getComponents()) {
+                if (component instanceof CocheCard && component != this) {
+                    ((CocheCard) component).deselectCard();
+                }
+            }
+        }
     }
 
+    public void deselectCard() {
+        isSelected = false;
+        
+        if (selectionListener != null) {
+            selectionListener.onCardUnselected();
+        }
+        
+        setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY, 1));
+        // Clear the selected item reference if this item is deselected
+        if (selectedListaItem == this) {
+            selectedListaItem = null;
+        }
+    }
+    
+    public void setReservaInfo(Reserva reserva) {
+        this.reserva = reserva;
+        nameTextLabel.setText(reserva.getUsuario().getNombre());
+        carTextLabel.setText(reserva.getCoche().getModeloCoche());
+        paymentModeTextLabel.setText(reserva.getModoCobro());
+    }
+
+    public void setSelectionListener(ReservasListener listener) {
+        this.selectionListener = listener;
+    }
+    
+    public boolean isSelected(){
+        return isSelected;
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -101,13 +168,18 @@ public class ListaItem extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private ReservasListener selectionListener;
+    private Reserva reserva;
+    private boolean isSelected;
+    private static ListaItem selectedListaItem;
+    
     private JLabel nameLabel;
     private JLabel carLabel;
     private JLabel paymentModeLabel;
 
-    private JTextField nameTextField;
-    private JTextField carTextField;
-    private JTextField paymentModeTextField;
+    private JLabel nameTextLabel;
+    private JLabel carTextLabel;
+    private JLabel paymentModeTextLabel;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables

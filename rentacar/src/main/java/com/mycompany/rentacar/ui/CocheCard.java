@@ -8,16 +8,18 @@ import com.mycompany.rentacar.model.Coche;
 import com.mycompany.rentacar.model.SelectionListener;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
-
-
 
 /**
  *
@@ -31,6 +33,17 @@ public class CocheCard extends javax.swing.JPanel {
     public CocheCard() {
         initComponents();
         setupComponents();
+        
+        addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (!isSelected) {
+                    selectCard();
+                } else {
+                    deselectCard();
+                }
+            }
+        });
 
     }
     
@@ -70,6 +83,8 @@ public class CocheCard extends javax.swing.JPanel {
     }
     
     public void setCocheInfo(Coche coche) {
+        this.coche = coche;
+        
         modeloLabel.setText("Modelo: " + coche.getModeloCoche());
         matriculaLabel.setText("Matrícula: " + coche.getMatricula());
         precioDiaLabel.setText("Precio por día: $" + coche.getPrecioDia());
@@ -78,7 +93,33 @@ public class CocheCard extends javax.swing.JPanel {
 
         displayCarImage(coche.getImgPath());
     }
+    
+    public void setSelectionListener(SelectionListener listener) {
+        this.selectionListener = listener;
+    }
+    
+    private void selectCard() {
+        isSelected = true;
+        setBorder(BorderFactory.createLineBorder(Color.decode("#F9AB55"), 2));
+        if (selectionListener != null) {
+            selectionListener.onCardSelected(coche);
+        }
+        // Deselect other cards
+        Container parent = getParent();
+        if (parent != null) {
+            for (Component component : parent.getComponents()) {
+                if (component instanceof CocheCard && component != this) {
+                    ((CocheCard) component).deselectCard();
+                }
+            }
+        }
+    }
 
+    public void deselectCard() {
+        isSelected = false;
+        setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY, 1));
+    }
+    
     private void displayCarImage(String imagePath) {
         ImageIcon icon = new ImageIcon(imagePath);
         Image image = icon.getImage().getScaledInstance(200, 150, Image.SCALE_SMOOTH);
@@ -105,8 +146,9 @@ public class CocheCard extends javax.swing.JPanel {
             .addGap(0, 300, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
-
     private SelectionListener selectionListener;
+    private Coche coche;
+    private boolean isSelected;
     
     private JLabel modeloLabel;
     private JLabel matriculaLabel;

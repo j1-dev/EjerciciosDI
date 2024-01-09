@@ -8,8 +8,8 @@ import com.mycompany.rentacar.ui.CocheCard;
 
 /**
  *
- * @author Juan
+ * @author j1
  */
 public interface SelectionListener {
-    void onCardSelected(CocheCard selectedCard);
+    void onCardSelected(Coche selected);
 }

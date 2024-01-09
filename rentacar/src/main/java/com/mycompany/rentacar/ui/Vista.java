@@ -7,6 +7,8 @@ package com.mycompany.rentacar.ui;
 import com.mycompany.rentacar.model.Coche;
 import com.mycompany.rentacar.model.Persona;
 import com.mycompany.rentacar.model.Reserva;
+import com.mycompany.rentacar.model.ReservasListener;
+import com.mycompany.rentacar.model.SelectionListener;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -58,14 +60,23 @@ public class Vista extends javax.swing.JFrame {
      * Creates new form Vista
      */
     public Vista() {
+        BACKGROUND = Color.decode("#909CC2");
+        TEXT = Color.decode("#F7F5FB");
+        PRIMARY = Color.decode("#F58A07");
+        SECONDARY = Color.decode("#F9AB55");
+        ACCENT = Color.decode("#084887");
+        
         usuario = new Persona();
         coche = new Coche();
         reservas = new ArrayList<Reserva>();
+        selectedCard = new CocheCard();
+        selectedItem = new ListaItem();
         initComponents();
         initializePanels();
         initializeButtons();
         addButtonListeners();
         vistaActual = 0;
+        isModifying = false;
         switchToPanelByIndex(vistaActual);
         
         contenedorVistas.addComponentListener(new ComponentAdapter() {
@@ -100,11 +111,26 @@ public class Vista extends javax.swing.JFrame {
         int lateralPanelWidth = panelLateral.getWidth();
 
         // Example button position adjustments (modify as needed)
-        botonNuevo.setLocation(10, height - 70);
+        botonNuevo.setLocation(20, height - 70);
         botonGuardar.setLocation(width - 110, height - 70);
-        botonAtras.setLocation(10, height - 70);
+        botonAtras.setLocation(20, height - 70);
         botonAdelante.setLocation(width - 110, height - 70);
-        // Adjust other button positions as necessary
+
+        // Adjust positions for the new buttons
+        int nuevoButtonY = height - 350; // Adjust the Y position for the "Nuevo" button
+        int buttonSpacing = 70; // Spacing between buttons
+
+        // "Eliminar" button position adjustments
+        JButton eliminarButton = (JButton) panelLateral.getComponent(0); // Assuming "Eliminar" is the first component
+        eliminarButton.setLocation(20, nuevoButtonY);
+
+        // "Modificar" button position adjustments
+        JButton modificarButton = (JButton) panelLateral.getComponent(1); // Assuming "Modificar" is the second component
+        modificarButton.setLocation(20, nuevoButtonY + buttonSpacing);
+        
+        boolean isSelected = selectedItem.isSelected(); // Assuming this method exists
+        panelLateral.getComponent(0).setEnabled(isSelected); // Assuming "Eliminar" is the first component
+        panelLateral.getComponent(1).setEnabled(isSelected); // Assuming "Modificar" is the second component
     }
     
     private void initializePanels() {
@@ -119,33 +145,52 @@ public class Vista extends javax.swing.JFrame {
     private void initializeVistaPrincipal() {
         vistaPrincipal = new JPanel();
         contenedorVistas.add(vistaPrincipal, 0); // Add vistaPrincipal at layer 1
-        vistaPrincipal.setBounds(0, 0, 700, 500); // Set bounds as needed
+        vistaPrincipal.setBackground(BACKGROUND);
 
-        reservas = new ArrayList<>(); // Initialize the list of reservations
+        // Use GridBagLayout for better component positioning
+        vistaPrincipal.setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+
+        // Title Label - centered horizontally
+        JLabel titleLabel = new JLabel("Reservas");
+        titleLabel.setForeground(TEXT);
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 36));
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.anchor = GridBagConstraints.PAGE_START;
+        vistaPrincipal.add(titleLabel, gbc);
+
+        // ScrollPane with cardsContainer - same width as vistaPrincipal, fixed height
         cardsContainer = new JPanel();
-        cardsContainer.setLayout(new GridLayout(0, 1)); // 2 columns for the grid layout, adjust as needed
+        cardsContainer.setLayout(new GridLayout(4, 1)); // 2 columns for the grid layout, adjust as needed
+        cardsContainer.setBackground(BACKGROUND);
 
         JScrollPane scrollPane = new JScrollPane(cardsContainer);
-        scrollPane.setPreferredSize(new Dimension(700, 400)); // Adjust dimensions as needed
+        scrollPane.setPreferredSize(new Dimension(100, 400)); // Fixed height, adjust width as needed
 
-        JLabel titleLabel = new JLabel("Reservas");
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 26));
-        vistaPrincipal.add(titleLabel);
-        
-        vistaPrincipal.add(scrollPane);
-        
+        gbc.gridy = 0;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.weightx = 1.0; // Allow the scrollPane to expand horizontally
+        gbc.weighty = 1.0; // Allow the scrollPane to expand vertically
+        gbc.anchor = GridBagConstraints.CENTER;
+        gbc.insets = new Insets(10, 10, 10, 10); // Add padding around the scrollPane
+
+        vistaPrincipal.add(scrollPane, gbc);
+
         // Create cards initially
         createReservationCards();
     }
+
     
     private void initalizeVistaUsuario() {
         vistaUsuario = new JPanel();
         contenedorVistas.add(vistaUsuario, 1); // Add vistaUsuario at layer 2
         vistaUsuario.setBounds(0, 0, 700, 500); // Set bounds as needed
+        vistaUsuario.setBackground(BACKGROUND);
         
         JLabel titleLabel = new JLabel("Datos del Usuario");
+        titleLabel.setForeground(TEXT);
         titleLabel.setFont(new Font("Arial", Font.BOLD, 26));
-        vistaUsuario.add(titleLabel);
 
         vistaUsuario.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
@@ -154,6 +199,8 @@ public class Vista extends javax.swing.JFrame {
         gbc.weighty = 1.0; // Allow components to fill vertically
         gbc.anchor = GridBagConstraints.WEST; // Align components to the left
         gbc.insets = new Insets(10, 10, 10, 10); // Add padding around components
+        
+        vistaUsuario.add(titleLabel, gbc);
 
         // Create and add labels and text fields
         nombreTextField = addLabelAndTextField(vistaUsuario, gbc, "Nombre:", 0, 1);
@@ -175,15 +222,11 @@ public class Vista extends javax.swing.JFrame {
         vistaCoche = new JPanel();
         contenedorVistas.add(vistaCoche, 2); // Add vistaCoche at layer 3
         vistaCoche.setBounds(0, 0, 700, 500); // Set bounds as needed
+        vistaCoche.setBackground(BACKGROUND);
 
         JLabel titleLabel = new JLabel("Datos del Coche");
+        titleLabel.setForeground(TEXT);
         titleLabel.setFont(new Font("Arial", Font.BOLD, 26));
-        vistaCoche.add(titleLabel);
-
-        // Define options for different types of cars
-        String[] turismosOptions = {"Volkswagen", "Seat", "Skoda"};
-        String[] furgonetasOptions = {"Volkswagen (Caddy)", "Volkswagen (Transporter)", "Volkswagen (Crafter)",
-                "Fiat (Fiorino)", "Fiat (Scudo)", "Fiat (Ducato)"};
 
         vistaCoche.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
@@ -192,6 +235,8 @@ public class Vista extends javax.swing.JFrame {
         gbc.weighty = 0; // Reduce vertical space taken by tipoCocheComboBox
         gbc.anchor = GridBagConstraints.WEST; // Align components to the left
         gbc.insets = new Insets(10, 10, 10, 10); // Add padding around components
+        
+        vistaCoche.add(titleLabel, gbc);
 
         // Tipo de coche (using combo box)
         tipoCocheComboBox = addLabelAndComboBox(vistaCoche, gbc, "Tipo de coche:", 0, 1, new String[]{"Pequeño", "Mediano", "Monovolumen", "Furgoneta de carga", "Furgoneta de pasajeros pequeña", "Furgoneta de pasajeros mediana", "Furgoneta de pasajeros grande"});
@@ -299,17 +344,38 @@ public class Vista extends javax.swing.JFrame {
                 cardsPanel.add(card);
             }
         }
-    }
+        
+        for (Component component : cardsPanel.getComponents()) {
+            if (component instanceof CocheCard) {
+                CocheCard card = (CocheCard) component;
+                card.setSelectionListener(new SelectionListener() {
+                    @Override
+                    public void onCardSelected(Coche c) {
+                        coche = c;
+                        selectedCard = card;
+                        handleSelectedCoche(c);
+                    }
+                });
+            }
+        }
 
+        cardsPanel.revalidate();
+        cardsPanel.repaint();
+    }
+    
+    private void handleSelectedCoche(Coche c) {
+        coche = c;
+    }
     
     private void initalizeVistaSeguro() {
         vistaSeguro = new JPanel();
         contenedorVistas.add(vistaSeguro, 3); // Add vistaSeguro at layer 4
         vistaSeguro.setBounds(0, 0, 700, 500); // Set bounds as needed
-
+        vistaSeguro.setBackground(BACKGROUND);
+        
         JLabel titleLabel = new JLabel("Datos del Seguro");
+        titleLabel.setForeground(TEXT);
         titleLabel.setFont(new Font("Arial", Font.BOLD, 26));
-        vistaSeguro.add(titleLabel);
 
         vistaSeguro.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
@@ -318,6 +384,8 @@ public class Vista extends javax.swing.JFrame {
         gbc.weighty = 1; // Adjusted to start from the next row for the main content
         gbc.anchor = GridBagConstraints.WEST; // Align components to the left
         gbc.insets = new Insets(10, 10, 10, 10); // Add padding around components
+        
+        vistaSeguro.add(titleLabel, gbc);
 
         seguroGroup = new ButtonGroup();
 
@@ -335,10 +403,11 @@ public class Vista extends javax.swing.JFrame {
         vistaCobro = new JPanel();
         contenedorVistas.add(vistaCobro, 4); // Add vistaCobro at layer 5
         vistaCobro.setBounds(0, 0, 700, 500); // Set bounds as needed
+        vistaCobro.setBackground(BACKGROUND);
         
         JLabel titleLabel = new JLabel("Datos del Cobro");
+        titleLabel.setForeground(TEXT);
         titleLabel.setFont(new Font("Arial", Font.BOLD, 26));
-        vistaCobro.add(titleLabel);
 
         vistaCobro.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
@@ -347,13 +416,15 @@ public class Vista extends javax.swing.JFrame {
         gbc.weighty = 1; // Adjusted to start from the next row for the main content        
         gbc.anchor = GridBagConstraints.WEST; // Align components to the left
         gbc.insets = new Insets(10, 10, 10, 10); // Add padding around components
+        
+        vistaCobro.add(titleLabel, gbc);
 
         modoCobroGroup = new ButtonGroup();
 
         addLabelAndRadioButton(vistaCobro, gbc, "Modo de cobro:", 0, 1, "Tarjeta", modoCobroGroup);
         addLabelAndRadioButton(vistaCobro, gbc, "", 0, 2, "Paypal", modoCobroGroup);
         addLabelAndRadioButton(vistaCobro, gbc, "", 0, 3, "Otro", modoCobroGroup);
-        addLabelAndTextField(vistaCobro, gbc, "Datos de tarjeta/Paypal/otro:", 0, 4);
+        datosCobroTextField = addLabelAndTextField(vistaCobro, gbc, "Datos de tarjeta/Paypal/otro:", 0, 4);
         
         int bottomMargin = 70; // Adjust this value to match the height of your buttons
         int topMargin = 20;
@@ -366,10 +437,11 @@ public class Vista extends javax.swing.JFrame {
         vistaResumen = new JPanel();
         contenedorVistas.add(vistaResumen, 5); // Add vistaResumen at layer 6
         vistaResumen.setBounds(0, 0, 700, 500); // Set bounds as needed
+        vistaResumen.setBackground(BACKGROUND);
         
         JLabel titleLabel = new JLabel("Resumen");
+        titleLabel.setForeground(TEXT);
         titleLabel.setFont(new Font("Arial", Font.BOLD, 26));
-        vistaResumen.add(titleLabel);
 
         vistaResumen.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
@@ -378,6 +450,8 @@ public class Vista extends javax.swing.JFrame {
         gbc.weighty = 1;
         gbc.anchor = GridBagConstraints.WEST; // Align components to the left
         gbc.insets = new Insets(10, 10, 10, 10); // Add padding around components
+        
+        vistaResumen.add(titleLabel, gbc);
 
         addLabelAndInfo(vistaResumen, gbc, "Usuario:", 0, 1, usuario.getNombre());
         addLabelAndInfo(vistaResumen, gbc, "Coche:", 0, 2, coche.getModeloCoche());
@@ -394,6 +468,7 @@ public class Vista extends javax.swing.JFrame {
     
     private JTextField addLabelAndTextField(JPanel panel, GridBagConstraints gbc, String labelText, int gridx, int gridy) {
         JLabel label = new JLabel(labelText);
+        label.setForeground(TEXT);
         gbc.gridx = gridx;
         gbc.gridy = gridy;
         gbc.anchor = GridBagConstraints.WEST; // Align components to the left
@@ -412,6 +487,7 @@ public class Vista extends javax.swing.JFrame {
     
     private JComboBox<String> addLabelAndComboBox(JPanel panel, GridBagConstraints gbc, String labelText, int gridx, int gridy, String[] options) {
         JLabel label = new JLabel(labelText);
+        label.setForeground(TEXT);
         gbc.gridx = gridx;
         gbc.gridy = gridy;
         gbc.anchor = GridBagConstraints.WEST; // Align components to the left
@@ -430,6 +506,7 @@ public class Vista extends javax.swing.JFrame {
 
     private JSpinner addLabelAndSpinner(JPanel panel, GridBagConstraints gbc, String labelText, int gridx, int gridy) {
         JLabel label = new JLabel(labelText);
+        label.setForeground(TEXT);
         gbc.gridx = gridx;
         gbc.gridy = gridy;
         gbc.anchor = GridBagConstraints.WEST; // Align components to the left
@@ -451,6 +528,7 @@ public class Vista extends javax.swing.JFrame {
 
     private JRadioButton addLabelAndRadioButton(JPanel panel, GridBagConstraints gbc, String labelText, int gridx, int gridy, String radioText, ButtonGroup group) {
         JLabel label = new JLabel(labelText);
+        label.setForeground(TEXT);
         gbc.gridx = gridx;
         gbc.gridy = gridy;
         gbc.anchor = GridBagConstraints.WEST; // Align components to the left
@@ -458,6 +536,8 @@ public class Vista extends javax.swing.JFrame {
         panel.add(label, gbc);
 
         JRadioButton radioButton = new JRadioButton(radioText);
+        radioButton.setBackground(BACKGROUND);
+        radioButton.setForeground(TEXT);
         gbc.gridx = gridx + 1;
         gbc.weightx = 1.0; // Make the radio button expand horizontally
         gbc.fill = GridBagConstraints.HORIZONTAL; // Fill horizontally
@@ -471,6 +551,7 @@ public class Vista extends javax.swing.JFrame {
 
     private JLabel addLabelAndInfo(JPanel panel, GridBagConstraints gbc, String labelText, int gridx, int gridy, String info) {
         JLabel label = new JLabel(labelText);
+        label.setForeground(TEXT);
         gbc.gridx = gridx;
         gbc.gridy = gridy;
         gbc.anchor = GridBagConstraints.WEST; // Align components to the left
@@ -478,6 +559,7 @@ public class Vista extends javax.swing.JFrame {
         panel.add(label, gbc);
 
         JLabel labelInfo = new JLabel(info);
+        labelInfo.setForeground(TEXT);
         gbc.gridx = gridx + 1;
         gbc.weightx = 1.0; // Make the text area expand horizontally
         gbc.fill = GridBagConstraints.BOTH; // Fill horizontally
@@ -500,18 +582,36 @@ public class Vista extends javax.swing.JFrame {
         // Initially hide this button
         botonNuevo.setVisible(false);
         panelLateral.add(botonNuevo);
-        botonNuevo.setBounds(10,400,100,50);
-        botonNuevo.setBackground(Color.BLACK);
-        botonNuevo.setForeground(Color.WHITE);
+        botonNuevo.setBounds(20,400,100,50);
+        botonNuevo.setBackground(PRIMARY);
+        botonNuevo.setForeground(TEXT);
         botonNuevo.setFocusable(false);
         botonNuevo.setBorder(BorderFactory.createEmptyBorder(0,0,0,0));
         
+        // Create and initialize eliminarButton for deleting a reservation
+        botonEliminar = new JButton("Eliminar");
+        panelLateral.add(botonEliminar); // Add eliminarButton to the lateral panel
+        botonEliminar.setBounds(20, 300, 100, 50); // Adjust the bounds as needed
+        botonEliminar.setBackground(PRIMARY);
+        botonEliminar.setForeground(TEXT);
+        botonEliminar.setFocusable(false);
+        botonEliminar.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+
+        // Create and initialize modificarButton for modifying a reservation
+        botonModificar = new JButton("Modificar");
+        panelLateral.add(botonModificar); // Add modificarButton to the lateral panel
+        botonModificar.setBounds(20, 200, 100, 50); // Adjust the bounds as needed
+        botonModificar.setBackground(PRIMARY);
+        botonModificar.setForeground(TEXT);
+        botonModificar.setFocusable(false);
+        botonModificar.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+
         botonGuardar = new JButton("Guardar");
         contenedorVistas.add(botonGuardar);
         contenedorVistas.setLayer(botonGuardar, JLayeredPane.POPUP_LAYER);
         botonGuardar.setBounds(500, 400, 100, 50);
-        botonGuardar.setBackground(Color.BLACK);
-        botonGuardar.setForeground(Color.WHITE);
+        botonGuardar.setBackground(PRIMARY);
+        botonGuardar.setForeground(TEXT);
         botonGuardar.setFocusable(false);
         botonGuardar.setBorder(BorderFactory.createEmptyBorder(0,0,0,0));
         
@@ -520,16 +620,16 @@ public class Vista extends javax.swing.JFrame {
         contenedorVistas.add(botonAtras);
         contenedorVistas.setLayer(botonAtras, JLayeredPane.POPUP_LAYER);
         botonAtras.setBounds(375, 400, 100, 50);
-        botonAtras.setBackground(Color.BLACK);
-        botonAtras.setForeground(Color.WHITE);
+        botonAtras.setBackground(PRIMARY);
+        botonAtras.setForeground(TEXT);
         botonAtras.setFocusable(false);
         botonAtras.setBorder(BorderFactory.createEmptyBorder(0,0,0,0));
 
         contenedorVistas.add(botonAdelante);
         contenedorVistas.setLayer(botonAdelante, JLayeredPane.POPUP_LAYER);
         botonAdelante.setBounds(500, 400, 100, 50);
-        botonAdelante.setBackground(Color.BLACK);
-        botonAdelante.setForeground(Color.WHITE);
+        botonAdelante.setBackground(PRIMARY);
+        botonAdelante.setForeground(TEXT);
         botonAdelante.setFocusable(false);
         botonAdelante.setBorder(BorderFactory.createEmptyBorder(0,0,0,0));
 
@@ -545,7 +645,8 @@ public class Vista extends javax.swing.JFrame {
         
         // Add botonNuevo to the bottom of panelLateral
         panelLateral.add(botonNuevo);
-        panelLateral.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        panelLateral.setBackground(ACCENT);
+        panelLateral.setBorder(BorderFactory.createLineBorder(ACCENT));
     }
     
     // Method to create cards
@@ -553,9 +654,19 @@ public class Vista extends javax.swing.JFrame {
         cardsContainer.removeAll(); // Clear existing cards
 
         for (Reserva reserva : reservas) {
-            System.out.println(reserva.toString());
             ListaItem card = new ListaItem();
             card.setReservaInfo(reserva); // Set Reserva information to the card
+            card.setSelectionListener(new ReservasListener(){
+                @Override
+                public void onCardSelected(Reserva reserva){
+                    handleSelectedItem(reserva, card);
+                }
+                
+                @Override
+                public void onCardUnselected() {
+                    handleUnselectedItem();
+                }
+            });
             cardsContainer.add(card);
         }
 
@@ -564,11 +675,26 @@ public class Vista extends javax.swing.JFrame {
         cardsContainer.repaint();
     }
     
+    private void handleSelectedItem(Reserva r, ListaItem l){
+        selectedReserva = r;
+        selectedItem = l;
+        botonEliminar.setEnabled(true);
+        botonModificar.setEnabled(true);
+    }
+    
+    private void handleUnselectedItem(){
+        selectedReserva = null;
+        selectedItem = null;
+        botonEliminar.setEnabled(false);
+        botonModificar.setEnabled(false);
+    }
+    
     private void addButtonListeners() {
         botonNuevo.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 vistaActual = 1;
                 switchToPanelByIndex(vistaActual); // Switch to vistaUsuario (index 1)
+                handleUnselectedItem();
             }
         });
 
@@ -607,6 +733,18 @@ public class Vista extends javax.swing.JFrame {
                 switchToPanelByIndex(vistaActual);
             }
         });
+        
+        botonModificar.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                modificar();
+            }
+        });
+        
+        botonEliminar.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e) {
+                eliminar();
+            }
+        });
     }
     
     private void saveUsuarioData() {
@@ -619,13 +757,13 @@ public class Vista extends javax.swing.JFrame {
     }
 
     private void saveCocheData() {
-        coche.setTipoCoche((String) tipoCocheComboBox.getSelectedItem());
-        coche.setModeloCoche((String) modeloCocheComboBox.getSelectedItem());
-        coche.setPrecioDia((int) precioDiaSpinner.getValue());
-        coche.setPrecioSemana((int) precioSemanaSpinner.getValue());
-        coche.setKilometrosEnPrecio((int) kilometrosPrecioSpinner.getValue());
-        coche.setPrecioPorKilometro((int) precioKilometroSpinner.getValue());
-        coche.setDesperfectos(desperfectosTextField.getText());
+//        coche.setTipoCoche((String) tipoCocheComboBox.getSelectedItem());
+//        coche.setModeloCoche((String) modeloCocheComboBox.getSelectedItem());
+//        coche.setPrecioDia((int) precioDiaSpinner.getValue());
+//        coche.setPrecioSemana((int) precioSemanaSpinner.getValue());
+//        coche.setKilometrosEnPrecio((int) kilometrosPrecioSpinner.getValue());
+//        coche.setPrecioPorKilometro((int) precioKilometroSpinner.getValue());
+//        coche.setDesperfectos(desperfectosTextField.getText());
     }
 
     private void saveSeguroData() {
@@ -671,13 +809,41 @@ public class Vista extends javax.swing.JFrame {
     }
     
     private void guardar() {
-        Persona newUsuario = new Persona(usuario);
-        Coche newCoche = new Coche(coche);
-        Reserva nuevaReserva = new Reserva(newUsuario, newCoche, modoCobro, datosCobro, tipoSeguro);
-        reservas.add(nuevaReserva);
-        System.out.println(reservas.toString());
-        createReservationCards();
-        resetFields();
+        if(!isModifying){
+            Persona newUsuario = new Persona(usuario);
+            Coche newCoche = new Coche(coche);
+            Reserva nuevaReserva = new Reserva(newUsuario, newCoche, modoCobro, datosCobro, tipoSeguro);
+            reservas.add(nuevaReserva);
+            createReservationCards();
+            resetFields(); 
+        } else {
+            isModifying = false;
+        }
+        
+    }
+    
+    private void modificar() {
+        isModifying = true;
+        
+    }
+    
+    private void eliminar() {
+        if (reservas.contains(selectedReserva)) {
+            reservas.remove(selectedReserva);
+
+            // Remove the selected card from the UI
+            cardsContainer.remove(selectedItem);
+            cardsContainer.revalidate();
+            cardsContainer.repaint();
+
+            // Deselect the card
+            if (selectedItem != null) {
+                selectedItem.deselectCard();
+            }
+
+            // Hide or disable eliminar button after deletion
+            botonEliminar.setEnabled(false);
+        }
     }
     
     private void resetFields() {
@@ -685,23 +851,24 @@ public class Vista extends javax.swing.JFrame {
         nombreTextField.setText("");
         apellidosTextField.setText("");
         direccionTextField.setText("");
+        dniTextField.setText("");
         edadTextField.setText("");
         tipoCarnetTextField.setText("");
         antiguedadCarnetTextField.setText("");
-        desperfectosTextField.setText("");
+        datosCobroTextField.setText("");
 
         // JComboBoxes
         tipoCocheComboBox.setSelectedIndex(0); // Reset to the default selection or a specific index
 
-        // JSpinners
-        precioDiaSpinner.setValue(0); // Reset to the default value
-        precioSemanaSpinner.setValue(0);
-        kilometrosPrecioSpinner.setValue(0);
-        precioKilometroSpinner.setValue(0);
-
         // ButtonGroups (for JRadioButtons)
         seguroGroup.clearSelection(); // Clear the selected radio button in this group
         modoCobroGroup.clearSelection();
+
+        // Deselect the selected card
+        if (selectedCard != null) {
+            selectedCard.deselectCard();
+            selectedCard = null;
+        }
     }
 
     
@@ -757,11 +924,15 @@ public class Vista extends javax.swing.JFrame {
             botonAtras.setVisible(false);
             botonAdelante.setVisible(false);
             botonNuevo.setVisible(true);
+            botonModificar.setVisible(true);
+            botonEliminar.setVisible(true);
             botonGuardar.setVisible(false);
         } else if (vistaActual == 1) {
             botonAtras.setVisible(true);
             botonAdelante.setVisible(true);
             botonNuevo.setVisible(false);
+            botonModificar.setVisible(false);
+            botonEliminar.setVisible(false);
         } else if (vistaActual == 5) { 
             botonAdelante.setVisible(false);
             botonGuardar.setVisible(true);
@@ -863,6 +1034,8 @@ public class Vista extends javax.swing.JFrame {
     
     private int vistaActual;
     
+    private boolean isModifying;
+    
     private JPanel cardsContainer;
     
     private javax.swing.JPanel vistaPrincipal;
@@ -886,14 +1059,9 @@ public class Vista extends javax.swing.JFrame {
     private JTextField edadTextField;
     private JTextField tipoCarnetTextField;
     private JTextField antiguedadCarnetTextField;
+    private JTextField datosCobroTextField;
     
     private JComboBox<String> tipoCocheComboBox;
-    private JComboBox<String> modeloCocheComboBox;
-    private JSpinner precioDiaSpinner;
-    private JSpinner precioSemanaSpinner;
-    private JSpinner kilometrosPrecioSpinner;
-    private JSpinner precioKilometroSpinner;
-    private JTextField desperfectosTextField;
     
     private ButtonGroup seguroGroup; 
     private ButtonGroup modoCobroGroup;
@@ -904,8 +1072,21 @@ public class Vista extends javax.swing.JFrame {
     private String datosCobro;
     private String tipoSeguro;
     
+    private Reserva selectedReserva;
+    
     private ArrayList<Reserva> reservas;
     private ArrayList<ListaItem> reservasCards;
+    private CocheCard selectedCard;
+    private ListaItem selectedItem;
+    
+    // Colores
+    private Color BACKGROUND;
+    private Color TEXT;
+    private Color PRIMARY;
+    private Color SECONDARY;
+    private Color ACCENT;
+    
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLayeredPane contenedorVistas;
     private javax.swing.JPanel panelLateral;
