@@ -99,8 +99,12 @@ public class CocheCard extends javax.swing.JPanel {
     }
     
     private void selectCard() {
+        if (selectedCocheCard != null && selectedCocheCard != this) {
+            selectedCocheCard.deselectCard(); // Deselect the previously selected item
+        }
         isSelected = true;
         setBorder(BorderFactory.createLineBorder(Color.decode("#F9AB55"), 2));
+        selectedCocheCard = this;
         if (selectionListener != null) {
             selectionListener.onCardSelected(coche);
         }
@@ -129,6 +133,10 @@ public class CocheCard extends javax.swing.JPanel {
         imagenLabel.setIcon(new ImageIcon(image));
     }
     
+    public void clearSelectionListener() {
+        selectionListener = null;
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -152,7 +160,8 @@ public class CocheCard extends javax.swing.JPanel {
     private SelectionListener selectionListener;
     private Coche coche;
     private boolean isSelected;
-    
+    private static CocheCard selectedCocheCard;
+
     private JLabel modeloLabel;
     private JLabel matriculaLabel;
     private JLabel precioDiaLabel;

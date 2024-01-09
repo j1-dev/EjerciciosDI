@@ -286,51 +286,51 @@ public class Vista extends javax.swing.JFrame {
         switch (selectedType) {
             case "Pequeño":
                 options = new Coche[]{
-                    new Coche("Pequeño", "Volkswagen Up", "UP123", 30, 200, 300, 6, "ruta/a/up_imagen.jpg", "Tiene desgaste leve"),
-                    new Coche("Pequeño", "Seat Mii", "MII456", 35, 220, 350, 7, "ruta/a/mii_imagen.jpg", "En buenas condiciones"),
-                    new Coche("Pequeño", "Renault Twingo", "TWINGO789", 32, 210, 320, 6, "ruta/a/twingo_imagen.jpg", "Sin desperfectos"),
+                    new Coche("Pequeño", "Volkswagen Up", "UP123", 30, 200, 300, 6, "up.jpg", "Tiene desgaste leve"),
+                    new Coche("Pequeño", "Seat Mii", "MII456", 35, 220, 350, 7, "mii.jpg", "En buenas condiciones"),
+                    new Coche("Pequeño", "Renault Twingo", "TWINGO789", 32, 210, 320, 6, "twingo.png", "Sin desperfectos"),
                 };
                 break;
             case "Mediano":
                 options = new Coche[]{
-                    new Coche("Mediano", "Volkswagen Golf", "GOLF123", 40, 250, 400, 8, "ruta/a/golf_imagen.jpg", "Algunos rasguños"),
-                    new Coche("Mediano", "Seat León", "LEON456", 45, 270, 420, 9, "ruta/a/leon_imagen.jpg", "En condiciones óptimas"),
-                    new Coche("Mediano", "Ford Focus", "FOCUS789", 42, 260, 420, 8, "ruta/a/focus_imagen.jpg", "Desgaste leve"),
+                    new Coche("Mediano", "Volkswagen Golf", "GOLF123", 40, 250, 400, 8, "golf.jpg", "Algunos rasguños"),
+                    new Coche("Mediano", "Seat León", "LEON456", 45, 270, 420, 9, "leon.jpg", "En condiciones óptimas"),
+                    new Coche("Mediano", "Ford Focus", "FOCUS789", 42, 260, 420, 8, "focus.jpg", "Desgaste leve"),
                 };
                 break;
             case "Monovolumen":
                 options = new Coche[]{
-                    new Coche("Monovolumen", "Volkswagen Touran", "TOURAN123", 50, 300, 500, 10, "ruta/a/touran_imagen.jpg", "Sin desperfectos"),
-                    new Coche("Monovolumen", "Seat Alhambra", "ALHAMBRA456", 55, 320, 550, 11, "ruta/a/alhambra_imagen.jpg", "Algunos arañazos"),
-                    new Coche("Monovolumen", "Citroën C4 Picasso", "C4PICASSO789", 52, 310, 520, 10, "ruta/a/c4picasso_imagen.jpg", "En buenas condiciones"),
+                    new Coche("Monovolumen", "Volkswagen Touran", "TOURAN123", 50, 300, 500, 10, "touran.jpg", "Sin desperfectos"),
+                    new Coche("Monovolumen", "Seat Alhambra", "ALHAMBRA456", 55, 320, 550, 11, "alhambra.jpg", "Algunos arañazos"),
+                    new Coche("Monovolumen", "Citroën C4 Picasso", "C4PICASSO789", 52, 310, 520, 10, "picasso.jpg", "En buenas condiciones"),
                 };
                 break;
             case "Furgoneta de carga":
                 options = new Coche[]{
-                    new Coche("Furgoneta de carga", "Volkswagen Caddy", "CADDY123", 60, 350, 600, 12, "ruta/a/caddy_imagen.jpg", "Desgaste leve"),
-                    new Coche("Furgoneta de carga", "Seat Altea XL", "ALTEAXL456", 65, 380, 650, 13, "ruta/a/alteaxl_imagen.jpg", "Algunos arañazos"),
-                    new Coche("Furgoneta de carga", "Renault Kangoo", "KANGOO789", 62, 360, 610, 12, "ruta/a/kangoo_imagen.jpg", "Sin desperfectos"),
+                    new Coche("Furgoneta de carga", "Volkswagen Caddy", "CADDY123", 60, 350, 600, 12, "caddy.jpg", "Desgaste leve"),
+                    new Coche("Furgoneta de carga", "Seat Altea XL", "ALTEAXL456", 65, 380, 650, 13, "altea.jpg", "Algunos arañazos"),
+                    new Coche("Furgoneta de carga", "Renault Kangoo", "KANGOO789", 62, 360, 610, 12, "kangoo.jpg", "Sin desperfectos"),
                 };
                 break;
             case "Furgoneta de pasajeros pequeña":
                 options = new Coche[]{
-                    new Coche("Furgoneta de pasajeros pequeña", "Volkswagen Caravelle", "CARAVELLE123", 70, 400, 700, 14, "ruta/a/caravelle_imagen.jpg", "Algunos rasguños"),
-                    new Coche("Furgoneta de pasajeros pequeña", "Seat Ateca", "ATECA456", 75, 430, 750, 15, "ruta/a/ateca_imagen.jpg", "Sin desperfectos"),
-                    new Coche("Furgoneta de pasajeros pequeña", "Ford Tourneo Connect", "TOURNEO789", 72, 410, 720, 14, "ruta/a/tourneo_imagen.jpg", "En buenas condiciones"),
+                    new Coche("Furgoneta de pasajeros pequeña", "Volkswagen Caravelle", "CARAVELLE123", 70, 400, 700, 14, "caravelle.jpg", "Algunos rasguños"),
+                    new Coche("Furgoneta de pasajeros pequeña", "Seat Ateca", "ATECA456", 75, 430, 750, 15, "ateca.jpg", "Sin desperfectos"),
+                    new Coche("Furgoneta de pasajeros pequeña", "Ford Tourneo Connect", "TOURNEO789", 72, 410, 720, 14, "tourneo.jpg", "En buenas condiciones"),
                 };
                 break;
             case "Furgoneta de pasajeros mediana":
                 options = new Coche[]{
-                    new Coche("Furgoneta de pasajeros mediana", "Volkswagen Transporter Shuttle", "SHUTTLE123", 90, 500, 850, 18, "ruta/a/shuttle_imagen.jpg", "En buenas condiciones"),
-                    new Coche("Furgoneta de pasajeros mediana", "Seat Tarraco", "TARRACO456", 95, 530, 900, 19, "ruta/a/tarraco_imagen.jpg", "Algunos rasguños"),
-                    new Coche("Furgoneta de pasajeros mediana", "Renault Trafic Passenger", "TRAFIC789", 92, 510, 870, 18, "ruta/a/trafic_imagen.jpg", "Desgaste leve"),
+                    new Coche("Furgoneta de pasajeros mediana", "Volkswagen Transporter Shuttle", "SHUTTLE123", 90, 500, 850, 18, "transporter.jpg", "En buenas condiciones"),
+                    new Coche("Furgoneta de pasajeros mediana", "Seat Tarraco", "TARRACO456", 95, 530, 900, 19, "tarraco.jpg", "Algunos rasguños"),
+                    new Coche("Furgoneta de pasajeros mediana", "Renault Trafic Passenger", "TRAFIC789", 92, 510, 870, 18, "trafic.jpg", "Desgaste leve"),
                 };
                 break;
             case "Furgoneta de pasajeros grande":
                 options = new Coche[]{
-                    new Coche("Furgoneta de pasajeros grande", "Volkswagen Crafter", "CRAFTER123", 80, 450, 750, 15, "ruta/a/crafter_imagen.jpg", "Con algunos daños"),
-                    new Coche("Furgoneta de pasajeros grande", "Seat Alhambra Van", "ALHAMBRAVAN456", 85, 480, 800, 16, "ruta/a/alhambravan_imagen.jpg", "Desgaste leve"),
-                    new Coche("Furgoneta de pasajeros grande", "Renault Master Combi", "MASTER789", 82, 460, 780, 15, "ruta/a/master_imagen.jpg", "En buenas condiciones"),
+                    new Coche("Furgoneta de pasajeros grande", "Volkswagen Crafter", "CRAFTER123", 80, 450, 750, 15, "crafter.jpg", "Con algunos daños"),
+                    new Coche("Furgoneta de pasajeros grande", "Seat Alhambra Van", "ALHAMBRAVAN456", 85, 480, 800, 16, "alhambravan.jpg", "Desgaste leve"),
+                    new Coche("Furgoneta de pasajeros grande", "Renault Master Combi", "MASTER789", 82, 460, 780, 15, "master.jpg", "En buenas condiciones"),
                 };
                 break;
             // Agregar casos para el resto de categorías...
@@ -347,6 +347,7 @@ public class Vista extends javax.swing.JFrame {
         for (Component component : cardsPanel.getComponents()) {
             if (component instanceof CocheCard) {
                 CocheCard card = (CocheCard) component;
+                card.clearSelectionListener();
                 card.setSelectionListener(new SelectionListener() {
                     @Override
                     public void onCardSelected(Coche c) {
