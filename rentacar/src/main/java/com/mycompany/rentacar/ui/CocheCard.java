@@ -98,7 +98,7 @@ public class CocheCard extends javax.swing.JPanel {
         this.selectionListener = listener;
     }
     
-    private void selectCard() {
+    public void selectCard() {
         if (selectedCocheCard != null && selectedCocheCard != this) {
             selectedCocheCard.deselectCard(); // Deselect the previously selected item
         }

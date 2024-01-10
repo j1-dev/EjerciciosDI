@@ -17,6 +17,7 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -30,10 +31,12 @@ import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.ButtonModel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
@@ -254,7 +257,7 @@ public class Vista extends javax.swing.JFrame {
         vistaCoche.add(scrollPane, scrollPaneConstraints);
 
         // Create a panel inside the scroll pane to hold the CocheCards
-        JPanel cardsPanel = new JPanel(new GridLayout(0, 2, 10, 10)); // 2 cards per row
+        cardsPanel = new JPanel(new GridLayout(0, 2, 10, 10)); // 2 cards per row
         scrollPane.setViewportView(cardsPanel);
 
         // Add an item listener to the tipoCocheComboBox
@@ -341,6 +344,13 @@ public class Vista extends javax.swing.JFrame {
                 CocheCard card = new CocheCard();
                 card.setCocheInfo(coche);
                 cardsPanel.add(card);
+                if(isModifying && selectedReserva != null) {
+                    if(coche.getMatricula().equals(selectedReserva.getCoche().getMatricula())) {
+                        card.selectCard();
+                        this.coche = coche;
+                        botonAdelante.setEnabled(true);
+                    }
+                }
             }
         }
         
@@ -366,7 +376,7 @@ public class Vista extends javax.swing.JFrame {
                 });
             }
         }
-
+        
         cardsPanel.revalidate();
         cardsPanel.repaint();
     }
@@ -394,8 +404,8 @@ public class Vista extends javax.swing.JFrame {
 
         seguroGroup = new ButtonGroup();
 
-        addLabelAndRadioButton(vistaSeguro, gbc, "Tipo de seguro:", 0, 1, "Todo riesgo", seguroGroup);
-        addLabelAndRadioButton(vistaSeguro, gbc, "", 0, 2, "Con franquicia", seguroGroup);
+        addLabelAndRadioButton(vistaSeguro, gbc, "Tipo de seguro:", 0, 1, "Todo Riesgo", seguroGroup);
+        addLabelAndRadioButton(vistaSeguro, gbc, "", 0, 2, "Con Franquicia", seguroGroup);
         
         int bottomMargin = 70; // Adjust this value to match the height of your buttons
         int topMargin = 20;
@@ -409,7 +419,7 @@ public class Vista extends javax.swing.JFrame {
         contenedorVistas.add(vistaCobro, 4); // Add vistaCobro at layer 5
         vistaCobro.setBounds(0, 0, 700, 500); // Set bounds as needed
         vistaCobro.setBackground(BACKGROUND);
-        
+
         JLabel titleLabel = new JLabel("Datos del Cobro");
         titleLabel.setForeground(TEXT);
         titleLabel.setFont(new Font("Arial", Font.BOLD, 26));
@@ -421,7 +431,7 @@ public class Vista extends javax.swing.JFrame {
         gbc.weighty = 1; // Adjusted to start from the next row for the main content        
         gbc.anchor = GridBagConstraints.WEST; // Align components to the left
         gbc.insets = new Insets(10, 10, 10, 10); // Add padding around components
-        
+
         vistaCobro.add(titleLabel, gbc);
 
         modoCobroGroup = new ButtonGroup();
@@ -429,8 +439,15 @@ public class Vista extends javax.swing.JFrame {
         addLabelAndRadioButton(vistaCobro, gbc, "Modo de cobro:", 0, 1, "Tarjeta", modoCobroGroup);
         addLabelAndRadioButton(vistaCobro, gbc, "", 0, 2, "Paypal", modoCobroGroup);
         addLabelAndRadioButton(vistaCobro, gbc, "", 0, 3, "Otro", modoCobroGroup);
+
         datosCobroTextField = addLabelAndTextField(vistaCobro, gbc, "Datos de tarjeta/Paypal/otro:", 0, 4);
-        
+
+        // Add fields for credit card details and email for contact
+        numTarjeta = addLabelAndTextField(vistaCobro, gbc, "Número de tarjeta:", 0, 5);
+        fechaVencimiento = addLabelAndTextField(vistaCobro, gbc, "Fecha de vencimiento (MM/YY):", 0, 6);
+        codigoSeguridad = addLabelAndTextField(vistaCobro, gbc, "Código de seguridad:", 0, 7);
+        emailContacto = addLabelAndTextField(vistaCobro, gbc, "Email de contacto:", 0, 8);
+
         int bottomMargin = 70; // Adjust this value to match the height of your buttons
         int topMargin = 20;
         vistaCobro.setBorder(BorderFactory.createEmptyBorder(topMargin, 0, bottomMargin, 0));
@@ -652,6 +669,20 @@ public class Vista extends javax.swing.JFrame {
         panelLateral.add(botonNuevo);
         panelLateral.setBackground(ACCENT);
         panelLateral.setBorder(BorderFactory.createLineBorder(ACCENT));
+        
+        ImageIcon logoIcon = new ImageIcon("logo.png");
+
+        // Scale the logo to your desired dimensions
+        int logoWidth = 100; // Set the desired width
+        int logoHeight = -1; // Maintain aspect ratio
+        Image scaledLogoImage = logoIcon.getImage().getScaledInstance(logoWidth, logoHeight, Image.SCALE_SMOOTH);
+        ImageIcon scaledLogoIcon = new ImageIcon(scaledLogoImage);
+
+        JLabel logoLabel = new JLabel(scaledLogoIcon);
+
+        // Add the logo to the lateral panel and position it at the top left
+        logoLabel.setBounds(20, 20, scaledLogoIcon.getIconWidth(), scaledLogoIcon.getIconHeight());
+        panelLateral.add(logoLabel);
     }
     
     // Method to create cards
@@ -708,21 +739,34 @@ public class Vista extends javax.swing.JFrame {
             public void actionPerformed(ActionEvent e) {
                 switch (vistaActual) {
                     case 1: // VistaUsuario
-                        saveUsuarioData();
+                        populateCards(cardsPanel);
+                        if(!isModifying){
+                            botonAdelante.setEnabled(false);
+                        }
+                        if(saveUsuarioData()){
+                            goForward();
+                        } else {
+                            botonAdelante.setEnabled(true);
+                        }
+
                         break;
                     case 2: // VistaCoche
-                        saveCocheData();
+                        botonAdelante.setEnabled(true);
+                        goForward();
                         break;
                     case 3: // VistaSeguro
-                        saveSeguroData();
+                        if(saveSeguroData()){
+                            goForward();
+                        }
                         break;
                     case 4: // VistaCobro
-                        saveCobroData();
-                        initializeVistaResumen();
+                        if(saveCobroData()){
+                            initializeVistaResumen();
+                            goForward();                            
+                        }
                         break;
                     // Add cases for other vistas as needed
                 }
-                goForward();
             }
         });
         
@@ -753,13 +797,46 @@ public class Vista extends javax.swing.JFrame {
         });
     }
     
-    private void saveUsuarioData() {
-        usuario.setNombre(nombreTextField.getText());
-        usuario.setApellidos(apellidosTextField.getText());
-        usuario.setDireccion(direccionTextField.getText());
-        usuario.setEdad(Integer.parseInt(edadTextField.getText()));
-        usuario.setTipoCarnet(tipoCarnetTextField.getText());
-        usuario.setAntiguedadCarnet(Integer.parseInt(antiguedadCarnetTextField.getText()));
+    private boolean saveUsuarioData() {
+        String nombre = nombreTextField.getText();
+        String apellidos = apellidosTextField.getText();
+        String dni = dniTextField.getText();
+        String direccion = direccionTextField.getText();
+        String edad = edadTextField.getText();
+        String tipoCarnet = tipoCarnetTextField.getText();
+        String antiguedadCarnet = antiguedadCarnetTextField.getText();
+
+        // Check if any field is empty
+        if (nombre.isEmpty() || apellidos.isEmpty() || dni.isEmpty() || direccion.isEmpty() || edad.isEmpty() || tipoCarnet.isEmpty() || antiguedadCarnet.isEmpty()) {
+            displayErrorDialog("Todos los campos son obligatorios.");
+            return false;
+        }
+
+        // Validate DNI length
+        if (dni.length() != 9) {
+            displayErrorDialog("El DNI debe tener 9 caracteres.");
+            return false;
+        }
+
+        // Validate edad and antiguedadCarnet are numbers
+        try {
+            int edadValue = Integer.parseInt(edad);
+            int antiguedadCarnetValue = Integer.parseInt(antiguedadCarnet);
+
+            // Set user data only if all validations pass
+            usuario.setNombre(nombre);
+            usuario.setApellidos(apellidos);
+            usuario.setDni(dni);
+            usuario.setDireccion(direccion);
+            usuario.setEdad(edadValue);
+            usuario.setTipoCarnet(tipoCarnet);
+            usuario.setAntiguedadCarnet(antiguedadCarnetValue);
+
+            return true; // All fields set correctly
+        } catch (NumberFormatException e) {
+            displayErrorDialog("Edad y Antigüedad del Carnet deben ser números.");
+            return false;
+        }
     }
 
     private void saveCocheData() {
@@ -772,21 +849,28 @@ public class Vista extends javax.swing.JFrame {
 //        coche.setDesperfectos(desperfectosTextField.getText());
     }
 
-    private void saveSeguroData() {
+    private boolean saveSeguroData() {
         tipoSeguro = "Todo Riesgo"; // Default
 
         ButtonModel selectedButtonModel = seguroGroup.getSelection();
         if (selectedButtonModel != null) {
-            JRadioButton radioButton1 = new JRadioButton("Todo riesgo");
-            JRadioButton radioButton2 = new JRadioButton("Con franquicia");
+            // Check the selected button and set tipoSeguro accordingly
+            JRadioButton radioButton1 = new JRadioButton("Todo Riesgo");
+            JRadioButton radioButton2 = new JRadioButton("Con Franquicia");
 
             if (selectedButtonModel.equals(radioButton2.getModel())) {
                 tipoSeguro = "Con Franquicia";
             }
+
+            return true; // Seguro data saved correctly
+        } else {
+            // Show an error message if no option is selected
+            displayErrorDialog("Por favor, selecciona un tipo de seguro.");
+            return false; // Seguro data not saved correctly
         }
     }
 
-    private void saveCobroData() {
+    private boolean saveCobroData() {
         modoCobro = ""; // Variable to store the payment method
         datosCobro = ""; // Variable to store payment details, like card or PayPal info
 
@@ -803,6 +887,24 @@ public class Vista extends javax.swing.JFrame {
             }
         }
 
+        tarjeta = numTarjeta.getText();
+        vencimiento = fechaVencimiento.getText();
+        codigo = codigoSeguridad.getText();
+        email = emailContacto.getText();
+
+        boolean isValid = true;
+
+        if (modoCobro.isEmpty() || tarjeta.isEmpty() || vencimiento.isEmpty() || codigo.isEmpty() || email.isEmpty()) {
+            isValid = false;
+            JOptionPane.showMessageDialog(null, "Todos los campos son obligatorios.", "Error", JOptionPane.ERROR_MESSAGE);
+        } else {
+            // Validate email format
+            if (!isValidEmail(email)) {
+                isValid = false;
+                JOptionPane.showMessageDialog(null, "Por favor, introduzca una dirección de correo electrónico válida.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+
         // Fetch details from the text field
         Component[] components = vistaCobro.getComponents();
         for (Component component : components) {
@@ -812,13 +914,23 @@ public class Vista extends javax.swing.JFrame {
                 break; // Assuming there's only one text field in this panel
             }
         }
+
+        return isValid; // Return whether the payment data is saved correctly
+    }
+    
+    private boolean isValidEmail(String email) {
+        return email.matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$");
+    }
+    
+    private void displayErrorDialog(String errorMessage) {
+        JOptionPane.showMessageDialog(null, errorMessage, "Error", JOptionPane.ERROR_MESSAGE);
     }
     
     private void guardar() {
         if(!isModifying){
             Persona newUsuario = new Persona(usuario);
             Coche newCoche = new Coche(coche);
-            Reserva nuevaReserva = new Reserva(newUsuario, newCoche, modoCobro, datosCobro, tipoSeguro);
+            Reserva nuevaReserva = new Reserva(newUsuario, newCoche, modoCobro, datosCobro, tipoSeguro, tarjeta, vencimiento, codigo, email, selectedCard);
             reservas.add(nuevaReserva);
             createReservationCards();
             resetFields(); 
@@ -845,21 +957,28 @@ public class Vista extends javax.swing.JFrame {
     }
     
     private void eliminar() {
+        // Check if selectedReserva is present and ask for confirmation
         if (reservas.contains(selectedReserva)) {
-            reservas.remove(selectedReserva);
+            int dialogResult = JOptionPane.showConfirmDialog(null, "¿Estás seguro de que quieres eliminar esta reserva?", "Confirmar eliminación", JOptionPane.YES_NO_OPTION);
 
-            // Remove the selected card from the UI
-            cardsContainer.remove(selectedItem);
-            cardsContainer.revalidate();
-            cardsContainer.repaint();
+            // If user confirms deletion (clicks YES)
+            if (dialogResult == JOptionPane.YES_OPTION) {
+                // Remove the selectedReserva from the list
+                reservas.remove(selectedReserva);
 
-            // Deselect the card
-            if (selectedItem != null) {
-                selectedItem.deselectCard();
+                // Remove the selected card from the UI
+                cardsContainer.remove(selectedItem);
+                cardsContainer.revalidate();
+                cardsContainer.repaint();
+
+                // Deselect the card
+                if (selectedItem != null) {
+                    selectedItem.deselectCard();
+                }
+
+                // Hide or disable eliminar button after deletion
+                botonEliminar.setEnabled(false);
             }
-
-            // Hide or disable eliminar button after deletion
-            botonEliminar.setEnabled(false);
         }
     }
     
@@ -873,9 +992,13 @@ public class Vista extends javax.swing.JFrame {
         tipoCarnetTextField.setText("");
         antiguedadCarnetTextField.setText("");
         datosCobroTextField.setText("");
+        numTarjeta.setText("");
+        fechaVencimiento.setText("");
+        codigoSeguridad.setText("");
+        emailContacto.setText("");
 
         // JComboBoxes
-        tipoCocheComboBox.setSelectedIndex(0); // Reset to the default selection or a specific index
+        tipoCocheComboBox.setSelectedIndex(0); 
 
         // ButtonGroups (for JRadioButtons)
         seguroGroup.clearSelection(); // Clear the selected radio button in this group
@@ -886,6 +1009,8 @@ public class Vista extends javax.swing.JFrame {
             selectedCard.deselectCard();
             selectedCard = null;
         }
+        
+        botonAdelante.setEnabled(true);
     }
 
     
@@ -963,6 +1088,8 @@ public class Vista extends javax.swing.JFrame {
     public void populateFieldsFromReserva(Reserva selectedReserva) {
         Persona usuario = selectedReserva.getUsuario();
         Coche coche = selectedReserva.getCoche();
+        
+        System.out.println(selectedReserva.toString());
 
         nombreTextField.setText(usuario.getNombre());
         apellidosTextField.setText(usuario.getApellidos());
@@ -972,6 +1099,40 @@ public class Vista extends javax.swing.JFrame {
         tipoCarnetTextField.setText(usuario.getTipoCarnet());
         antiguedadCarnetTextField.setText(Integer.toString(usuario.getAntiguedadCarnet()));
         datosCobroTextField.setText(datosCobro);
+        numTarjeta.setText(tarjeta);
+        fechaVencimiento.setText(vencimiento);
+        codigoSeguridad.setText(codigo);
+        emailContacto.setText(email);
+                
+        Enumeration<AbstractButton> seguroButtons = seguroGroup.getElements();
+        while (seguroButtons.hasMoreElements()) {
+            AbstractButton button = seguroButtons.nextElement();
+            if (button instanceof JRadioButton) {
+                JRadioButton radioButton = (JRadioButton) button;
+//                System.out.println(selectedReserva.getTipoSeguro());
+//                System.out.println(radioButton.getActionCommand());
+                if (radioButton.getActionCommand().equals(selectedReserva.getTipoSeguro())){
+                    radioButton.setSelected(true);
+                    break;
+                }
+            }
+        }
+        
+        Enumeration<AbstractButton> modoCobroButtons = modoCobroGroup.getElements();
+        while (modoCobroButtons.hasMoreElements()) {
+            AbstractButton button = modoCobroButtons.nextElement();
+            if (button instanceof JRadioButton) {
+                JRadioButton radioButton = (JRadioButton) button;
+//                System.out.println(selectedReserva.getTipoSeguro());
+//                System.out.println(radioButton.getActionCommand());
+                if (radioButton.getActionCommand().equals(selectedReserva.getModoCobro())){
+                    radioButton.setSelected(true);
+                    break;
+                }
+            }
+        }
+        
+//        modoCobroGroup.setSelected(m, isModifying);
 
         tipoCocheComboBox.setSelectedItem(coche.getTipoCoche());
     }
@@ -1077,6 +1238,7 @@ public class Vista extends javax.swing.JFrame {
     private javax.swing.JPanel vistaSeguro;
     private javax.swing.JPanel vistaCobro;
     private javax.swing.JPanel vistaResumen;
+    private javax.swing.JPanel cardsPanel;
     
     private javax.swing.JButton botonAtras;
     private javax.swing.JButton botonAdelante;
@@ -1093,6 +1255,10 @@ public class Vista extends javax.swing.JFrame {
     private JTextField tipoCarnetTextField;
     private JTextField antiguedadCarnetTextField;
     private JTextField datosCobroTextField;
+    private JTextField numTarjeta;
+    private JTextField fechaVencimiento;
+    private JTextField codigoSeguridad;
+    private JTextField emailContacto;
     
     private JComboBox<String> tipoCocheComboBox;
     
@@ -1104,6 +1270,10 @@ public class Vista extends javax.swing.JFrame {
     private String modoCobro;
     private String datosCobro;
     private String tipoSeguro;
+    private String tarjeta;
+    private String vencimiento;
+    private String codigo;
+    private String email;
     
     private Reserva selectedReserva;
     
