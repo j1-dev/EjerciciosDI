@@ -107,15 +107,6 @@ public class ListaItem extends javax.swing.JPanel {
         if (selectionListener != null) {
             selectionListener.onCardSelected(reserva);
         }
-        // Deselect other cards
-        Container parent = getParent();
-        if (parent != null) {
-            for (Component component : parent.getComponents()) {
-                if (component instanceof CocheCard && component != this) {
-                    ((CocheCard) component).deselectCard();
-                }
-            }
-        }
     }
 
     public void deselectCard() {

@@ -361,8 +361,7 @@ public class Vista extends javax.swing.JFrame {
                         coche = null;
                         selectedCard = null;
                         botonAdelante.setEnabled(false);
-                        System.out.println("b");
-
+                        System.out.println("b");   
                     }
                 });
             }

@@ -108,15 +108,6 @@ public class CocheCard extends javax.swing.JPanel {
         if (selectionListener != null) {
             selectionListener.onCardSelected(coche);
         }
-        // Deselect other cards
-        Container parent = getParent();
-        if (parent != null) {
-            for (Component component : parent.getComponents()) {
-                if (component instanceof CocheCard && component != this) {
-                    ((CocheCard) component).deselectCard();
-                }
-            }
-        }
     }
 
     public void deselectCard() {
@@ -124,6 +115,10 @@ public class CocheCard extends javax.swing.JPanel {
         setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY, 1));
         if (selectionListener != null) {
             selectionListener.onCardUnselected();
+        }
+        
+        if (selectedCocheCard == this) {
+            selectedCocheCard = null;
         }
     }
     
@@ -135,6 +130,14 @@ public class CocheCard extends javax.swing.JPanel {
     
     public void clearSelectionListener() {
         selectionListener = null;
+    }
+    
+    public boolean isSelected() {
+        return isSelected;
+    }
+    
+    public Coche getCoche() {
+        return coche;
     }
     
     /**
