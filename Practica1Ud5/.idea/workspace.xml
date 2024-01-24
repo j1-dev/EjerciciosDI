@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="bea7f1b6-132b-4d5e-b5ac-620591902d01" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../Practica1Ud2/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Practica1Ud2/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Practica1Ud2/src/main/java/com/gestionclientes/gui/PantallaBaja.form" beforeDir="false" afterPath="$PROJECT_DIR$/../Practica1Ud2/src/main/java/com/gestionclientes/gui/PantallaBaja.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Practica1Ud2/src/main/java/com/gestionclientes/gui/PantallaBaja.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Practica1Ud2/src/main/java/com/gestionclientes/gui/PantallaBaja.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Practica1Ud2/src/main/java/com/gestionclientes/gui/PantallaPrimerPaso.form" beforeDir="false" afterPath="$PROJECT_DIR$/../Practica1Ud2/src/main/java/com/gestionclientes/gui/PantallaPrimerPaso.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Practica1Ud2/src/main/java/com/gestionclientes/gui/PantallaPrimerPaso.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Practica1Ud2/src/main/java/com/gestionclientes/gui/PantallaPrimerPaso.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Practica1Ud2/src/main/java/com/gestionclientes/gui/PantallaPrincipal.form" beforeDir="false" afterPath="$PROJECT_DIR$/../Practica1Ud2/src/main/java/com/gestionclientes/gui/PantallaPrincipal.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Practica1Ud2/src/main/java/com/gestionclientes/gui/PantallaPrincipal.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Practica1Ud2/src/main/java/com/gestionclientes/gui/PantallaPrincipal.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Practica1Ud2/src/main/java/com/gestionclientes/gui/PantallaSegundoPaso.form" beforeDir="false" afterPath="$PROJECT_DIR$/../Practica1Ud2/src/main/java/com/gestionclientes/gui/PantallaSegundoPaso.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Practica1Ud2/src/main/java/com/gestionclientes/gui/PantallaSegundoPaso.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Practica1Ud2/src/main/java/com/gestionclientes/gui/PantallaSegundoPaso.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gestionhotel/dto/Persona.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gestionhotel/dto/Persona.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gestionhotel/gui/PantallaPersona.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gestionhotel/gui/PantallaPersona.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gestionhotel/gui/PantallaPersona.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gestionhotel/gui/PantallaPersona.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gestionhotel/gui/PantallaPrimerPaso.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gestionhotel/gui/PantallaPrimerPaso.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gestionhotel/gui/PantallaPrimerPaso.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gestionhotel/gui/PantallaPrimerPaso.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gestionhotel/gui/PantallaPrincipal.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gestionhotel/gui/PantallaPrincipal.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gestionhotel/gui/PantallaPrincipal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gestionhotel/gui/PantallaPrincipal.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gestionhotel/gui/PantallaSegundoPaso.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gestionhotel/gui/PantallaSegundoPaso.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gestionhotel/gui/PantallaSegundoPaso.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/gestionhotel/gui/PantallaSegundoPaso.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/mycompany/practica2ud2/Practica2Ud2.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/mycompany/practica2ud2/Practica2Ud2.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 5
+}]]></component>
+  <component name="ProjectId" id="2XznvoIiiNPn7tYlFPBCZ4suSCs" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "main",
+    "last_opened_file_path": "C:/Users/Juan/Documents/Clases/EjerciciosDI/Practica2Ud2",
+    "settings.editor.selected.configurable": "editor.preferences.fonts.default",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="bea7f1b6-132b-4d5e-b5ac-620591902d01" name="Changes" comment="" />
+      <created>1699641010765</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1699641010765</updated>
+      <workItem from="1699641011975" duration="184000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>
