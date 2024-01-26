@@ -11,7 +11,7 @@ PUBLIC "-//Sun Microsystems Inc.//DTD JavaHelp HelpSet Version 2.0//EN"
   <!-- maps -->
   <maps>
      <homeID>intro</homeID>
-     <mapref location="Map.jhm"/>
+     <mapref location="map_file.jhm"/>
   </maps>
 
   <!-- views -->
@@ -19,14 +19,14 @@ PUBLIC "-//Sun Microsystems Inc.//DTD JavaHelp HelpSet Version 2.0//EN"
     <name>TOC</name>
     <label>Table Of Contents</label>
     <type>javax.help.TOCView</type>
-    <data>MergeTOC.xml</data>
+    <data>toc.xml</data>
   </view>
 
   <view mergetype="javax.help.SortMerge">
     <name>Index</name>
     <label>Index</label>
     <type>javax.help.IndexView</type>
-    <data>MergeIndex.xml</data>
+    <data>indice.xml</data>
   </view>
 
   <view mergetype="javax.help.SortMerge">

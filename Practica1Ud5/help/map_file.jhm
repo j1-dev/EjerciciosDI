@@ -4,8 +4,8 @@
          "http://java.sun.com/products/javahelp/map_1_0.dtd">
 
 <map version="1.0">
-	<mapID target="intro" url="Pages/Introduction.html" />
-	<mapID target="add" url="Pages/add.html" />
-	<mapID target="main" url="Pages/main.html" />
-	<mapID target="view" url="Pages/view.html" />
+	<mapID target="intro" url="html/Introduction.html" />
+	<mapID target="add" url="html/add.html" />
+	<mapID target="main" url="html/main.html" />
+	<mapID target="view" url="html/view.html" />
 </map>

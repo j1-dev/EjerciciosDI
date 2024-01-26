@@ -40,6 +40,7 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         allEventos = new ArrayList<Evento>();
         
         initComponents();
+        ponLaAyuda();
         DefaultTableModel dtm = new DefaultTableModel();
         dtm.setColumnIdentifiers(new String[]{
             "Persona",
@@ -95,6 +96,7 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         etLogo = new javax.swing.JLabel();
         helpMenu = new javax.swing.JMenuBar();
         helpItem = new javax.swing.JMenu();
+        menuHelp = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -221,6 +223,10 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         );
 
         helpItem.setText("Ayuda");
+
+        menuHelp.setText("Ayuda x fabo");
+        helpItem.add(menuHelp);
+
         helpMenu.add(helpItem);
 
         setJMenuBar(helpMenu);
@@ -371,14 +377,20 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         this.allEventos = allEventos;
     }
     
-    private void ponLaAyuda() throws MalformedURLException, HelpSetException {
-        File fichero = new File("help"+File.separator+"help_set.hs");
-        URL hsURL = fichero.toURI().toURL();
+    private void ponLaAyuda() {
+        try {
+            File fichero = new File("."+File.separator+"help"+File.separator+"help_set.hs");
+            URL hsURL = fichero.toURI().toURL();
+
+            HelpSet helpset = new HelpSet(getClass().getClassLoader(), hsURL);
+            HelpBroker hb = helpset.createHelpBroker();
+
+            hb.enableHelpOnButton(menuHelp, "intro", helpset);
+            hb.enableHelpKey(getRootPane(), "main", helpset); 
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         
-        HelpSet helpset = new HelpSet(getClass().getClassLoader(), hsURL);
-        HelpBroker hb = helpset.createHelpBroker();
-        
-        hb.enableHelpOnButton(helpItem, "intro", helpset);
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -388,6 +400,7 @@ public class PantallaPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuBar helpMenu;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JMenuItem menuHelp;
     private javax.swing.JPanel pCamaguei;
     private javax.swing.JPanel pHabana;
     private javax.swing.JPanel pVaradero;
