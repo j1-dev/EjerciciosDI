@@ -5,6 +5,7 @@
 package com.gestionhotel.gui;
 
 import com.gestionhotel.dto.Persona;
+import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 
 /**
@@ -87,7 +88,7 @@ public class PantallaPersona extends javax.swing.JDialog {
                 .addGap(20, 20, 20)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(etError)
+                        .addComponent(etError, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -123,7 +124,7 @@ public class PantallaPersona extends javax.swing.JDialog {
                     .addComponent(jLabel3)
                     .addComponent(tfDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(etError)
+                .addComponent(etError, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(btSiguiente, javax.swing.GroupLayout.DEFAULT_SIZE, 60, Short.MAX_VALUE)
@@ -144,7 +145,7 @@ public class PantallaPersona extends javax.swing.JDialog {
         if(isNumeric(tfTelefono.getText())){
             telefono = Integer.parseInt(tfTelefono.getText());
         } else {
-            etError.setText("ERROR: El campo 'numero de teléfono' debe ser un número");
+            JOptionPane.showMessageDialog(null, "El campo 'numero de teléfono' debe ser un número", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
         String direccion = tfDireccion.getText();
@@ -156,7 +157,7 @@ public class PantallaPersona extends javax.swing.JDialog {
             setVisible(false);
             pantallaPrimerPaso.setVisible(true);
         } else {
-            etError.setText("ERROR: Todos los campos deben estar rellenos");
+            JOptionPane.showMessageDialog(null, "Todos los campos son obligatorios", "Error", JOptionPane.ERROR_MESSAGE);
         }
         
     }//GEN-LAST:event_btSiguienteActionPerformed

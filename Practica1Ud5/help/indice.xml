@@ -46,8 +46,8 @@
 
 <index version="1.0">
     <indexitem text="intro" target="intro"/>
-    <indexitem text="view" target="view"/>
-    <indexitem text="add" target="add" />
-    <indexitem text="helpset" target="main"/>
+    <indexitem text="funcionamiento" target="funcionamiento"/>
+    <indexitem text="tipos" target="tipos" />
+    <indexitem text="faq" target="faq"/>
 </index>
 

@@ -9,6 +9,7 @@ import com.gestionhotel.dto.Persona;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -191,7 +192,7 @@ public class PantallaSegundoPaso extends javax.swing.JDialog {
                 numHabitaciones = Integer.parseInt(tfNumHabitaciones.getText());
                 tipoHabitacion = cbTipoHabitacion.getSelectedItem().toString();
             } else {
-                etError.setText("ERROR: El campo 'numero de habitaciones' debe ser un número");
+                JOptionPane.showMessageDialog(null, "El campo 'numero de habitaciones' debe ser un número", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
         } else {
@@ -222,7 +223,7 @@ public class PantallaSegundoPaso extends javax.swing.JDialog {
                 dispose();
             }
         } else {
-            etError.setText("ERROR: Todos los campos deben estar rellenos");
+            JOptionPane.showMessageDialog(null, "Todos los campos deben estar rellenos", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
     }//GEN-LAST:event_btSiguienteActionPerformed

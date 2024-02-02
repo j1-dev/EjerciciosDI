@@ -20,6 +20,7 @@ import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.AbstractButton;
+import javax.swing.JOptionPane;
 import javax.swing.SpinnerNumberModel;
 
 /**
@@ -307,7 +308,7 @@ public class PantallaPrimerPaso extends javax.swing.JDialog {
                 fechaFin = calendar.getTime();
                 System.out.println(sdfFormat.format(fechaFin));
             } else {
-                etError.setText("ERROR: El campo 'numero de dias' debe ser un número");
+                JOptionPane.showMessageDialog(null, "El campo 'numero de días' debe ser un número", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
         } else{
@@ -327,17 +328,17 @@ public class PantallaPrimerPaso extends javax.swing.JDialog {
             numPersonas = Integer.parseInt(tfNumPersonasText);
             if(tipoEvento.equals("Congreso")){
                 if(numPersonas > 100){
-                    etError.setText("ERROR: En un congreso no puede haber más de 100 personas");
+                    JOptionPane.showMessageDialog(null, "En un congreso no puede haber más de 100 personas", "Error", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
             } else {
                 if(numPersonas > 50){
-                    etError.setText("ERROR: En este tipo de eventos no puede haber más de 50 personas");
+                    JOptionPane.showMessageDialog(null, "En este tipo de eventos no puede haber más de 50 personas", "Error", JOptionPane.ERROR_MESSAGE);                    
                     return;
                 }
             }
         } else {
-            etError.setText("ERROR: El campo 'numero de personas' debe ser un número");
+            JOptionPane.showMessageDialog(null, "El campo 'numero de personas' debe ser un número", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
         boolean requiereHabitaciones = checkHabitaciones.isSelected();
@@ -353,16 +354,16 @@ public class PantallaPrimerPaso extends javax.swing.JDialog {
                 for(Evento ev : evTodos){
                     if(areDatesOnSameDay(fecha, ev.getFechaInicio())){
                         if(tipoEvento.equals(ev.getTipoEvento())){
-                            etError.setText("ERROR: Ya hay un evento de este tipo el " + sdfFormat.format(fecha));
+                            JOptionPane.showMessageDialog(null, "Ya hay un evento de este tipo el " + sdfFormat.format(fecha), "Error", JOptionPane.ERROR_MESSAGE);                            
                             return;    
                         } 
                         if (sala.equals(ev.getSala())){
-                            etError.setText("Error: La sala " + sala + " ya está reservada para el " + sdfFormat.format(fecha));
+                            JOptionPane.showMessageDialog(null, "La sala " + sala + " ya está reservada para el " + sdfFormat.format(fecha), "Error", JOptionPane.ERROR_MESSAGE);                            
                             return;
                         }
                     } else if(ev.getTipoEvento().equals("Congreso")){
                         if(isDateBetween(fecha, ev.getFechaInicio(), ev.getFechaFin())){
-                            etError.setText("Error: La sala " + sala + " ya está reservada entre el " + sdfFormat.format(ev.getFechaInicio()) + " y el " + sdfFormat.format(ev.getFechaFin()));
+                            JOptionPane.showMessageDialog(null, "La sala " + sala + " ya está reservada entre el " + sdfFormat.format(ev.getFechaInicio()) + " y el " + sdfFormat.format(ev.getFechaFin()), "Error", JOptionPane.ERROR_MESSAGE);                            
                             return;
                         }
                     }
@@ -372,17 +373,18 @@ public class PantallaPrimerPaso extends javax.swing.JDialog {
                     if(ev.getTipoEvento().equals("Congreso")){
                         if(areDateRangesColliding(fechaInicio, fechaFin, ev.getFechaInicio(), ev.getFechaFin())){
                             if(ev.getTipoEvento().equals("Congreso")) {
-                                etError.setText("ERROR: Ya hay un Congreso desde el " + sdfFormat.format(ev.getFechaInicio()) + " hasta el " + sdfFormat.format(ev.getFechaFin()));
+                                JOptionPane.showMessageDialog(null, "Ya hay un Congreso desde el " + sdfFormat.format(ev.getFechaInicio()) + " hasta el " + sdfFormat.format(ev.getFechaFin()), "Error", JOptionPane.ERROR_MESSAGE);                            
                                 return; 
                             }
                             if(sala.equals(ev.getSala())){
-                                etError.setText("Error: La sala " + sala + " ya está reservada para el " + sdfFormat.format(fechaInicio));
+                                JOptionPane.showMessageDialog(null, "La sala " + sala + " ya está reservada para el " + sdfFormat.format(fechaInicio), "Error", JOptionPane.ERROR_MESSAGE);
                                 return;
                             }
                         }  
                     } else {
                         if(isDateBetween(ev.getFechaInicio(), fechaInicio, fechaFin)){
-                            etError.setText("ERROR: Ya hay un evento el " + sdfFormat.format(fechaInicio));
+                            JOptionPane.showMessageDialog(null, "Ya hay un evento el " + sdfFormat.format(fechaInicio), "Error", JOptionPane.ERROR_MESSAGE);
+                            etError.setText("Ya hay un evento el " + sdfFormat.format(fechaInicio));
                             return;  
                         }
                     }
@@ -394,7 +396,7 @@ public class PantallaPrimerPaso extends javax.swing.JDialog {
             setVisible(false);
             pantallaSegundoPaso.setVisible(true);
         } else if (numDias != -1){
-            etError.setText("ERROR: Todos los campos deben estar rellenos");
+            JOptionPane.showMessageDialog(null, "Todos los campos deben estar rellenos", "Error", JOptionPane.ERROR_MESSAGE);
         }
         
         

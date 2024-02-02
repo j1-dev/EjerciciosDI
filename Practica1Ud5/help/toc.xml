@@ -45,9 +45,9 @@
          "http://java.sun.com/products/javahelp/toc_1_0.dtd">
 <toc version="1.0">
   <tocitem text="Merging HelpSets">
-    <tocitem text="Introduction" target="intro"/>
-    <tocitem text="Using the Merge Demo" target="main"/>
-    <tocitem text="Adding HelpSets" target="add"/>
-    <tocitem text="View Master and Slave" target="view" />
+    <tocitem text="Introducción" target="intro"/>
+    <tocitem text="Funcionamiento de la aplicación" target="funcionamiento"/>
+    <tocitem text="Restricciones sobre los campos" target="tipos"/>
+    <tocitem text="Preguntas frecuentes" target="faq" />
   </tocitem>
 </toc>
