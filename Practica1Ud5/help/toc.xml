@@ -44,7 +44,7 @@
   PUBLIC "-//Sun Microsystems Inc.//DTD JavaHelp TOC Version 1.0//EN"
          "http://java.sun.com/products/javahelp/toc_1_0.dtd">
 <toc version="1.0">
-  <tocitem text="Merging HelpSets">
+  <tocitem text="Guía Rápida Hotel Marshall">
     <tocitem text="Introducción" target="intro"/>
     <tocitem text="Funcionamiento de la aplicación" target="funcionamiento"/>
     <tocitem text="Restricciones sobre los campos" target="tipos"/>

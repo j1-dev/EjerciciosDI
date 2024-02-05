@@ -386,7 +386,7 @@ public class PantallaPrincipal extends javax.swing.JFrame {
             HelpBroker hb = helpset.createHelpBroker();
 
             hb.enableHelpOnButton(menuHelp, "intro", helpset);
-            hb.enableHelpKey(getRootPane(), "main", helpset); 
+            hb.enableHelpKey(getRootPane(), "intro", helpset); 
         } catch (Exception e) {
             e.printStackTrace();
         }
